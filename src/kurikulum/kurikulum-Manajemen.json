@@ -1,0 +1,127 @@
+{
+  "kurikulum": "Manajemen PJJ S1 UNSIA",
+  "total_sks_lulus": 144,
+  "data_semester": [
+    {
+      "semester": 1,
+      "mata_kuliah": [
+        { "kode": "MGT-S1-01", "nama": "Pengantar Teknologi Informasi", "sks": 3, "area": "Teknologi dan Sistem Informasi Untuk Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S1-02", "nama": "Pengantar Manajemen Rantai Pasok", "sks": 3, "area": "Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S1-03", "nama": "Ekonomi Mikro", "sks": 3, "area": "Teori dan Ekonomi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S1-04", "nama": "Pengantar Akuntansi 1", "sks": 3, "area": "Teori dan Akuntansi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S1-05", "nama": "Matematika Ekonomi dan Bisnis", "sks": 3, "area": "Metode Kuantitatif", "status": "MKWP" },
+        { "kode": "MGT-S1-06", "nama": "Bahasa Inggris", "sks": 2, "area": "Bahasa", "status": "MKDU" },
+        { "kode": "MGT-S1-07", "nama": "ICT Literacy", "sks": 2, "area": "Matematika dan Komputasi", "status": "MKDU" }
+      ]
+    },
+    {
+      "semester": 2,
+      "mata_kuliah": [
+        { "kode": "MGT-S2-01", "nama": "Pasar dan Lembaga Keuangan", "sks": 2, "area": "Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S2-02", "nama": "Estetika Humanisme", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKDU" },
+        { "kode": "MGT-S2-03", "nama": "Pengantar Bisnis", "sks": 3, "area": "Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S2-04", "nama": "Pancasila", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKDU" },
+        { "kode": "MGT-S2-05", "nama": "Pengantar Akuntansi 2", "sks": 3, "area": "Teori dan Akuntansi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S2-06", "nama": "Ekonomi Makro", "sks": 3, "area": "Teori dan Ekonomi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S2-07", "nama": "Statistik Ekonomi dan Bisnis 1", "sks": 3, "area": "Metode Kuantitatif", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 3,
+      "mata_kuliah": [
+        { "kode": "MGT-S3-01", "nama": "Agama", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKDU" },
+        { "kode": "MGT-S3-02", "nama": "Kewarganegaraan", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKDU" },
+        { "kode": "MGT-S3-03", "nama": "Manajemen SDM 1", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S3-04", "nama": "Digital Marketing", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S3-05", "nama": "Manajemen Operasional 1", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S3-06", "nama": "Manajemen Keuangan 1", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S3-07", "nama": "Statistik Ekonomi dan Bisnis 2", "sks": 3, "area": "Metode Kuantitatif", "status": "MKWP" },
+        { "kode": "MGT-S3-08", "nama": "Bahasa Korea", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKDU" }
+      ]
+    },
+    {
+      "semester": 4,
+      "mata_kuliah": [
+        { "kode": "MGT-S4-01", "nama": "Manajemen SDM 2", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S4-02", "nama": "Advanced Digital Marketing", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S4-03", "nama": "Manajemen Operasional 2", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" },
+        { "kode": "MGT-S4-04", "nama": "Manajemen Perbankan", "sks": 3, "area": "Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S4-05", "nama": "Perekonomian Indonesia", "sks": 2, "area": "Teori dan Ekonomi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S4-06", "nama": "Bahasa Indonesia", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKU" },
+        { "kode": "MGT-S4-07", "nama": "Manajemen Keuangan 2", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKK" }
+      ]
+    },
+    {
+      "semester": 5,
+      "mata_kuliah": [
+        { "kode": "MGT-S5-01", "nama": "Digital Innovative Entrepreneurship", "sks": 3, "area": "Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S5-02", "nama": "Manajemen Risiko", "sks": 3, "area": "Manajemen", "status": "MKK" },
+        { "kode": "MGT-S5-03", "nama": "Akuntansi Biaya", "sks": 3, "area": "Teori dan Akuntansi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S5-04", "nama": "Perpajakan", "sks": 2, "area": "Teori dan Akuntansi dalam Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S5-05", "nama": "E-Commerce Business", "sks": 3, "area": "Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S5-06", "nama": "Hukum Bisnis", "sks": 3, "area": "Hukum", "status": "MKWP" },
+        { "kode": "MGT-S5-07", "nama": "Sistem Informasi Manajemen", "sks": 3, "area": "Teknologi dan Sistem Informasi Untuk Bisnis", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 6,
+      "mata_kuliah": [
+        { "kode": "MGT-S6-01", "nama": "Metode Penelitian Manajemen", "sks": 3, "area": "Riset Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S6-02", "nama": "Akuntansi Manajemen", "sks": 3, "area": "Teori dan Akuntansi dalam Manajemen", "status": "MKK" },
+        { "kode": "MGT-S6-03", "nama": "Anggaran Bisnis", "sks": 3, "area": "Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S6-04", "nama": "Business Communication", "sks": 2, "area": "Manajemen", "status": "MKK" },
+        { "kode": "MGT-S6-05", "nama": "Organizational Behavior", "sks": 3, "area": "Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S6-06", "nama": "Kewirausahaan", "sks": 2, "area": "Karakter, Integritas, dan Soft Skill", "status": "MKU" },
+        { "kode": "MGT-S6-07", "nama": "Studi Kelayakan Bisnis", "sks": 3, "area": "Bisnis", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 7,
+      "mata_kuliah": [
+        { "kode": "MGT-S7-01", "nama": "Manajemen Strategik", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKWP" },
+        { "kode": "MGT-S7-02", "nama": "Etika Bisnis", "sks": 2, "area": "Bisnis", "status": "MKWP" },
+        { "kode": "MGT-S7-03", "nama": "Bisnis Internasional", "sks": 3, "area": "Bisnis", "status": "MKWP" },
+        {
+          "opsi_label": "Mata Kuliah Pilihan 1 (Manajemen SDM)",
+          "opsi": [
+            { "kode": "MGT-S7-P1-01", "nama": "Manajemen Kinerja dan Kompensasi", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 1" },
+            { "kode": "MGT-S7-P1-02", "nama": "Manajemen Hubungan Industrial", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 1" },
+            { "kode": "MGT-S7-P1-03", "nama": "Manajemen SDM Internasional", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 1" }
+          ]
+        },
+        {
+          "opsi_label": "Mata Kuliah Pilihan 2 (Manajemen Pemasaran)",
+          "opsi": [
+            { "kode": "MGT-S7-P2-01", "nama": "Riset Pemasaran Digital", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 2" },
+            { "kode": "MGT-S7-P2-02", "nama": "Perilaku Konsumen Digital", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 2" },
+            { "kode": "MGT-S7-P2-03", "nama": "Pemasaran Global", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 2" }
+          ]
+        },
+        {
+          "opsi_label": "Mata Kuliah Pilihan 3 (Manajemen Keuangan)",
+          "opsi": [
+            { "kode": "MGT-S7-P3-01", "nama": "Manajemen Investasi", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 3" },
+            { "kode": "MGT-S7-P3-02", "nama": "Riset Keuangan Digital", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 3" },
+            { "kode": "MGT-S7-P3-03", "nama": "Manajemen Keuangan Internasional", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 3" }
+          ]
+        },
+        {
+          "opsi_label": "Mata Kuliah Pilihan 4 (Manajemen Operasional)",
+          "opsi": [
+            { "kode": "MGT-S7-P4-01", "nama": "Manajemen Proyek", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 4" },
+            { "kode": "MGT-S7-P4-02", "nama": "Manajemen Retail", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 4" },
+            { "kode": "MGT-S7-P4-03", "nama": "Manajemen Operasi Internasional", "sks": 3, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKP 4" }
+          ]
+        }
+      ]
+    },
+    {
+      "semester": 8,
+      "mata_kuliah": [
+        { "kode": "MGT-S8-01", "nama": "Tugas Akhir", "sks": 6, "area": "Project Based", "status": "MKWP" },
+        { "kode": "MGT-S8-02", "nama": "Cyber Security Management", "sks": 2, "area": "Manajemen", "status": "MKWP" },
+        { "kode": "MGT-S8-03", "nama": "Business Intelligence", "sks": 2, "area": "Fungsi-Fungsi Organisasi (Keuangan, Pemasaran, SDM, dan Operasional)", "status": "MKWP" }
+      ]
+    }
+  ]
+}
