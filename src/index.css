@@ -2,23 +2,23 @@
 @import "tailwindcss";
 
 :root {
-	--brand-ink: #1b2a6b;
-	--brand-core: #2f4cdd;
-	--brand-accent: #14b8a6;
-	--brand-soft: #e8eeff;
+	--brand-ink: #0f3f69;
+	--brand-core: #104a7c;
+	--brand-accent: #f4d112;
+	--brand-soft: #eaf2fb;
 	--surface: #ffffff;
-	--surface-muted: #f5f8ff;
-	--stroke: #d8e1ff;
+	--surface-muted: #f5f9fe;
+	--stroke: #c7d9ea;
 }
 
 body[data-theme='night'] {
-	--brand-ink: #d9e4ff;
-	--brand-core: #7f9cff;
-	--brand-accent: #34d399;
-	--brand-soft: #18234c;
-	--surface: #111c44;
-	--surface-muted: #152252;
-	--stroke: #273b7b;
+	--brand-ink: #dce9f8;
+	--brand-core: #6da3d0;
+	--brand-accent: #f4d112;
+	--brand-soft: #13253c;
+	--surface: #10243b;
+	--surface-muted: #152d48;
+	--stroke: #2f5579;
 }
 
 @layer base {
@@ -30,18 +30,18 @@ body[data-theme='night'] {
 		font-family: 'Plus Jakarta Sans', sans-serif;
 		color: #1e293b;
 		background:
-			radial-gradient(circle at 12% 8%, #d9e6ff 0%, rgba(217, 230, 255, 0) 38%),
-			radial-gradient(circle at 90% 15%, #d5f5ef 0%, rgba(213, 245, 239, 0) 30%),
-			linear-gradient(165deg, #f2f7ff 0%, #eef4ff 50%, #f6fbff 100%);
+			radial-gradient(circle at 12% 8%, #d8e8f8 0%, rgba(216, 232, 248, 0) 38%),
+			radial-gradient(circle at 88% 12%, #fff1b7 0%, rgba(255, 241, 183, 0) 30%),
+			linear-gradient(165deg, #f6faff 0%, #f0f6fd 50%, #fbfdff 100%);
 		background-attachment: fixed;
 	}
 
 	body[data-theme='night'] {
-		color: #d8e3ff;
+		color: #dce9f8;
 		background:
-			radial-gradient(circle at 14% 8%, #263a79 0%, rgba(38, 58, 121, 0) 42%),
-			radial-gradient(circle at 86% 18%, #145263 0%, rgba(20, 82, 99, 0) 34%),
-			linear-gradient(165deg, #0a1230 0%, #111f4a 55%, #0b1738 100%);
+			radial-gradient(circle at 14% 8%, #1b3e62 0%, rgba(27, 62, 98, 0) 42%),
+			radial-gradient(circle at 86% 18%, #7d6714 0%, rgba(125, 103, 20, 0) 34%),
+			linear-gradient(165deg, #081425 0%, #11253d 55%, #0b1d31 100%);
 	}
 }
 
@@ -54,12 +54,12 @@ body[data-theme='night'] {
 	.glass-panel {
 		background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 100%);
 		border: 1px solid var(--stroke);
-		box-shadow: 0 14px 40px rgba(30, 64, 175, 0.1);
+		box-shadow: 0 14px 40px rgba(16, 74, 124, 0.12);
 		backdrop-filter: blur(8px);
 	}
 
 	body[data-theme='night'] .glass-panel {
-		background: linear-gradient(180deg, rgba(18, 32, 74, 0.92) 0%, rgba(18, 32, 74, 0.88) 100%);
+		background: linear-gradient(180deg, rgba(16, 36, 59, 0.92) 0%, rgba(16, 36, 59, 0.88) 100%);
 		box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
 	}
 
@@ -76,7 +76,7 @@ body[data-theme='night'] {
 	body[data-theme='night'] .app-shell .border-gray-200,
 	body[data-theme='night'] .app-shell .border-indigo-100,
 	body[data-theme='night'] .app-shell .border-emerald-100 {
-		border-color: rgba(111, 142, 255, 0.32) !important;
+		border-color: rgba(102, 149, 192, 0.36) !important;
 	}
 
 	body[data-theme='night'] .app-shell .text-slate-900,
@@ -93,23 +93,23 @@ body[data-theme='night'] {
 	body[data-theme='night'] .app-shell .text-gray-600,
 	body[data-theme='night'] .app-shell .text-gray-500,
 	body[data-theme='night'] .app-shell .text-gray-400 {
-		color: #b7c8ff !important;
+		color: #b8cde4 !important;
 	}
 
 	body[data-theme='night'] .app-shell input,
 	body[data-theme='night'] .app-shell select {
-		background-color: rgba(18, 33, 75, 0.92);
-		border-color: rgba(123, 151, 255, 0.3);
-		color: #e3ecff;
+		background-color: rgba(16, 36, 59, 0.92);
+		border-color: rgba(112, 156, 199, 0.34);
+		color: #dce9f8;
 	}
 
 	body[data-theme='night'] .app-shell table thead {
-		background: linear-gradient(90deg, rgba(56, 88, 197, 0.28) 0%, rgba(27, 98, 132, 0.28) 100%) !important;
+		background: linear-gradient(90deg, rgba(29, 79, 123, 0.34) 0%, rgba(143, 119, 24, 0.3) 100%) !important;
 	}
 
 	body[data-theme='night'] .app-shell code {
-		background-color: rgba(128, 150, 255, 0.18);
-		color: #d9e4ff;
+		background-color: rgba(109, 163, 208, 0.18);
+		color: #dce9f8;
 	}
 
 	.float-orb {

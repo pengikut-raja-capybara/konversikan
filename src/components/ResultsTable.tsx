@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, AllCommunityModule, type ColDef, type RowClassParams, type ValueFormatterParams, themeBalham } from "ag-grid-community";
@@ -257,13 +257,15 @@ export default function ResultsTable({
       {
         headerName: "Nilai",
         field: "grade",
-        width: 100,
+        width: 50,
+        pinned: "left",
       },
       {
-        headerName: "SKS Asal",
+        headerName: "SKS",
         field: "transcriptSks",
-        width: 100,
+        width: 50,
         valueFormatter: (p: ValueFormatterParams<ResultsTableRow, number | null>) => (p.value !== null && p.value !== undefined ? String(p.value) : "-"),
+        pinned: "left",
       },
       {
         headerName: "Nama Mata Kuliah Tujuan",
@@ -274,24 +276,14 @@ export default function ResultsTable({
           const d = p.data;
           if (!d) return null;
           return (
-            <button
-              type="button"
-              onClick={() => {
-                setActiveManualSelectionRow(d.rowIndex);
-                setCourseSearchKeyword("");
-              }}
-              className="max-w-full truncate text-left text-slate-700 hover:text-indigo-700 hover:underline"
-              title="Klik untuk memilih mata kuliah manual"
-            >
-              {p.value}
-            </button>
+              p.value
           );
         },
       },
       {
-        headerName: "SKS Tujuan",
+        headerName: "SKS",
         field: "targetSks",
-        width: 100,
+        width: 50,
         valueFormatter: (p: ValueFormatterParams<ResultsTableRow, number | null>) => (p.value !== null && p.value !== undefined ? String(p.value) : "-"),
       },
       {
@@ -357,13 +349,13 @@ export default function ResultsTable({
       {
         headerName: "Skor",
         field: "scorePercent",
-        width: 100,
+        width: 50,
         valueFormatter: (p: ValueFormatterParams<ResultsTableRow, number | null>) => (p.value !== null ? `${p.value}%` : "-"),
         pinned: "right",
       },
       {
         headerName: "Status",
-        width: 100,
+        width: 75,
         cellRenderer: (p: { data?: ResultsTableRow }) => {
           const d = p.data;
           if (!d) return null;
@@ -388,6 +380,18 @@ export default function ResultsTable({
       "bg-red-50/40": (p: RowClassParams<ResultsTableRow>) => !p.data?.result.match,
       "bg-amber-50": (p: RowClassParams<ResultsTableRow>) => Boolean(p.data?.isDuplicate),
     };
+  }, []);
+
+  const getGridRowStyle = useCallback((p: RowClassParams<ResultsTableRow>) => {
+    if (p.data?.isDuplicate) {
+      return { backgroundColor: "#fef3c7" };
+    }
+
+    if (!p.data?.result.match) {
+      return { backgroundColor: "#fee2e2" };
+    }
+
+    return undefined;
   }, []);
 
   function handleOpenAutoResolveDialog() {
@@ -472,7 +476,11 @@ export default function ResultsTable({
               Ekspor Excel
             </button>
             {duplicateTargetGroups.length > 0 && (
-              <button type="button" onClick={handleOpenAutoResolveDialog} className="rounded-lg border border-amber-300 bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-800 hover:bg-amber-200">
+              <button
+                type="button"
+                onClick={handleOpenAutoResolveDialog}
+                className="rounded-lg border border-amber-300 bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-800 hover:bg-amber-200"
+              >
                 Atur Otomatis Duplikat
               </button>
             )}
@@ -501,6 +509,7 @@ export default function ResultsTable({
           headerHeight={40}
           animateRows
           rowClassRules={gridRowClassRules}
+          getRowStyle={getGridRowStyle}
           suppressCellFocus
         />
       </div>
