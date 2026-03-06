@@ -15,7 +15,7 @@ function App() {
       <span className="float-orb left-[-60px] top-[-30px] h-44 w-44 bg-indigo-200" />
       <span className="float-orb bottom-[-70px] right-[-40px] h-52 w-52 bg-emerald-200" />
 
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto w-full">
         <div className={`fade-up mb-8 rounded-3xl border px-6 py-7 backdrop-blur md:px-9 ${
           theme === 'night'
             ? 'border-indigo-300/20 bg-slate-900/70 shadow-[0_14px_45px_rgba(5,10,30,0.55)]'
@@ -28,14 +28,14 @@ function App() {
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-500">
-                  UNSIA Credit Transfer Suite
+                  Suite Konversi SKS UNSIA
                 </p>
                 <h1 className="brand-heading mt-1 text-4xl font-extrabold text-[var(--brand-ink)] md:text-5xl">
                   konversikan
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm text-slate-600 md:text-base">
                   Platform simulasi konversi SKS mahasiswa pindahan Universitas Siber Asia,
-                  dengan dua mesin penilaian: rule-based dan semantic AI.
+                  dengan dua mesin penilaian: berbasis aturan dan AI semantik.
                 </p>
               </div>
             </div>
@@ -44,7 +44,7 @@ function App() {
               <div className="mb-2 flex items-center justify-between">
                 <span className="font-semibold text-slate-700">Mode aktif</span>
                 <span className="rounded-full bg-indigo-100 px-2.5 py-1 font-semibold text-indigo-700">
-                  {activeVersion === 'v1' ? 'Rule-based Engine' : 'Semantic AI Engine'}
+                  {activeVersion === 'v1' ? 'Mesin Berbasis Aturan' : 'Mesin AI Semantik'}
                 </span>
               </div>
               <button
@@ -56,7 +56,7 @@ function App() {
                     : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                {theme === 'day' ? 'Aktifkan Kampus Night' : 'Kembali ke Kampus Day'}
+                {theme === 'day' ? 'Aktifkan Mode Gelap' : 'Kembali ke Mode Terang'}
               </button>
             </div>
           </div>
@@ -74,7 +74,7 @@ function App() {
                 : 'bg-white text-indigo-700 hover:bg-indigo-50'
             }`}
           >
-            Versi 1 • Rule-based
+            Versi 1 • Berbasis Aturan
           </button>
           <button
             type="button"
@@ -85,7 +85,7 @@ function App() {
                 : 'bg-white text-emerald-700 hover:bg-emerald-50'
             }`}
           >
-            Versi 2 • Semantic AI
+            Versi 2 • AI Semantik
           </button>
         </div>
 

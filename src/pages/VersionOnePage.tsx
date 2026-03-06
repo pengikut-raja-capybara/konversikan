@@ -1,11 +1,17 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from 'react'
-import type { Curriculum, MatchResult, ParseResult, TranscriptCourse } from '../types'
+import type {
+  Curriculum,
+  MataKuliah,
+  MatchResult,
+  ParseResult,
+  TranscriptCourse,
+} from '../types'
 import ProdiSelector from '../components/ProdiSelector'
 import FileUploader from '../components/FileUploader'
 import SummaryCards from '../components/SummaryCards'
 import ResultsTable from '../components/ResultsTable'
-import { matchTranscript } from '../utils/matching'
+import { flattenMK, matchTranscript } from '../utils/matching'
 import { calculateStudyDuration } from '../utils/studyDuration'
 
 export default function VersionOnePage() {
@@ -14,6 +20,7 @@ export default function VersionOnePage() {
   const [transcript, setTranscript] = useState<TranscriptCourse[]>([])
   const [results, setResults] = useState<MatchResult[]>([])
   const [manualSelections, setManualSelections] = useState<Record<number, number>>({})
+  const [customSelections, setCustomSelections] = useState<Record<number, MataKuliah>>({})
   const [fileName, setFileName] = useState<string>('')
   const [studentName, setStudentName] = useState<string>('')
   const [asalKampus, setAsalKampus] = useState<string>('')
@@ -40,10 +47,12 @@ export default function VersionOnePage() {
     if (!curr || transcript.length === 0) {
       setResults([])
       setManualSelections({})
+      setCustomSelections({})
       return
     }
     setResults(matchTranscript(transcript, curr))
     setManualSelections({})
+    setCustomSelections({})
   }, [transcript, selectedKey, curricula])
 
   function handleProdiChange(key: string) {
@@ -54,6 +63,7 @@ export default function VersionOnePage() {
     setStudentName('')
     setAsalKampus('')
     setManualSelections({})
+    setCustomSelections({})
     uploaderRef.current?.reset()
   }
 
@@ -63,6 +73,7 @@ export default function VersionOnePage() {
     setStudentName(result.studentName ?? '')
     setAsalKampus(result.asalKampus ?? '')
     setManualSelections({})
+    setCustomSelections({})
   }
 
   function handleRecommendationSelect(resultIndex: number, recommendationIndex: number) {
@@ -70,9 +81,57 @@ export default function VersionOnePage() {
       ...prev,
       [resultIndex]: recommendationIndex,
     }))
+    setCustomSelections((prev) => {
+      const next = { ...prev }
+      delete next[resultIndex]
+      return next
+    })
+  }
+
+  function handleManualCourseSelect(resultIndex: number, course: MataKuliah) {
+    setCustomSelections((prev) => ({
+      ...prev,
+      [resultIndex]: course,
+    }))
+    setManualSelections((prev) => {
+      const next = { ...prev }
+      delete next[resultIndex]
+      return next
+    })
+  }
+
+  function handleClearManualCourse(resultIndex: number) {
+    setCustomSelections((prev) => {
+      const next = { ...prev }
+      delete next[resultIndex]
+      return next
+    })
+  }
+
+  function handleBulkSetUnmatched(indices: number[]) {
+    setManualSelections((prev) => {
+      const next = { ...prev }
+      for (const idx of indices) next[idx] = -1
+      return next
+    })
+    setCustomSelections((prev) => {
+      const next = { ...prev }
+      for (const idx of indices) delete next[idx]
+      return next
+    })
   }
 
   const effectiveResults = results.map((r, idx) => {
+    const manualCourse = customSelections[idx]
+    if (manualCourse) {
+      return {
+        ...r,
+        match: manualCourse,
+        score: 0,
+        method: 'manual_custom',
+      }
+    }
+
     const selectedRecIdx = manualSelections[idx]
     if (selectedRecIdx === undefined) return r
 
@@ -100,12 +159,13 @@ export default function VersionOnePage() {
   const unmatchedCount = effectiveResults.length - matchedCount
   const totalSKS = effectiveResults.reduce((sum, r) => sum + (r.match?.sks ?? 0), 0)
   const totalSKSWajib = curricula[selectedKey]?.total_sks_lulus ?? 144
+  const allTargetCourses = curricula[selectedKey] ? flattenMK(curricula[selectedKey]) : []
   const { estSemesters, remainingSKS } = calculateStudyDuration(totalSKS, totalSKSWajib)
 
   return (
     <div className="glass-panel rounded-3xl p-5 md:p-6">
       <div className="mb-4 rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50 to-blue-50 px-4 py-3 text-sm font-medium text-indigo-700">
-        Versi 1: Evaluasi berbasis aturan (competency map + similarity + fuzzy)
+        Versi 1: Evaluasi berbasis aturan (peta kompetensi + kemiripan + fuzzy)
       </div>
 
       <div className="mb-6 grid gap-6 md:grid-cols-2">
@@ -138,7 +198,12 @@ export default function VersionOnePage() {
       <ResultsTable
         results={effectiveResults}
         selectedRecommendations={manualSelections}
+        customSelections={customSelections}
+        availableCourses={allTargetCourses}
         onSelectRecommendation={handleRecommendationSelect}
+        onSelectManualCourse={handleManualCourseSelect}
+        onClearManualCourse={handleClearManualCourse}
+        onBulkSetUnmatched={handleBulkSetUnmatched}
       />
     </div>
   )

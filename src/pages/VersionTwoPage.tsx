@@ -1,10 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import type { Curriculum, MatchResult, ParseResult, TranscriptCourse } from '../types'
+import type {
+  Curriculum,
+  MataKuliah,
+  MatchResult,
+  ParseResult,
+  TranscriptCourse,
+} from '../types'
 import ProdiSelector from '../components/ProdiSelector'
 import FileUploader from '../components/FileUploader'
 import SummaryCards from '../components/SummaryCards'
 import ResultsTable from '../components/ResultsTable'
 import { calculateStudyDuration } from '../utils/studyDuration'
+import { flattenMK } from '../utils/matching'
 import {
   isSemanticModelReady,
   matchTranscriptSemantic,
@@ -17,6 +24,7 @@ export default function VersionTwoPage() {
   const [transcript, setTranscript] = useState<TranscriptCourse[]>([])
   const [results, setResults] = useState<MatchResult[]>([])
   const [manualSelections, setManualSelections] = useState<Record<number, number>>({})
+  const [customSelections, setCustomSelections] = useState<Record<number, MataKuliah>>({})
   const [fileName, setFileName] = useState<string>('')
   const [studentName, setStudentName] = useState<string>('')
   const [asalKampus, setAsalKampus] = useState<string>('')
@@ -47,6 +55,7 @@ export default function VersionTwoPage() {
     if (!curr || transcript.length === 0) {
       setResults([])
       setManualSelections({})
+      setCustomSelections({})
       setIsProcessing(false)
       setErrorMessage('')
       setSemanticProgress(null)
@@ -64,7 +73,7 @@ export default function VersionTwoPage() {
           processed: 0,
           total: 1,
           percent: 0,
-          message: 'Menyiapkan semantic engine...',
+          message: 'Menyiapkan mesin semantik...',
         })
 
         const next = await matchTranscriptSemantic(transcript, curr, {
@@ -79,12 +88,13 @@ export default function VersionTwoPage() {
         if (!cancelled) {
           setResults(next)
           setManualSelections({})
+          setCustomSelections({})
         }
       } catch (err) {
         if (!cancelled) {
           console.error(err)
           setResults([])
-          setErrorMessage('Gagal memuat model semantic. Coba refresh halaman.')
+          setErrorMessage('Gagal memuat model semantik. Coba muat ulang halaman.')
         }
       } finally {
         if (!cancelled) {
@@ -111,6 +121,7 @@ export default function VersionTwoPage() {
     setStudentName('')
     setAsalKampus('')
     setManualSelections({})
+    setCustomSelections({})
     setIsProcessing(false)
     setErrorMessage('')
     setSemanticProgress(null)
@@ -123,6 +134,7 @@ export default function VersionTwoPage() {
     setStudentName(result.studentName ?? '')
     setAsalKampus(result.asalKampus ?? '')
     setManualSelections({})
+    setCustomSelections({})
     setErrorMessage('')
     setSemanticProgress(null)
   }
@@ -132,9 +144,57 @@ export default function VersionTwoPage() {
       ...prev,
       [resultIndex]: recommendationIndex,
     }))
+    setCustomSelections((prev) => {
+      const next = { ...prev }
+      delete next[resultIndex]
+      return next
+    })
+  }
+
+  function handleManualCourseSelect(resultIndex: number, course: MataKuliah) {
+    setCustomSelections((prev) => ({
+      ...prev,
+      [resultIndex]: course,
+    }))
+    setManualSelections((prev) => {
+      const next = { ...prev }
+      delete next[resultIndex]
+      return next
+    })
+  }
+
+  function handleClearManualCourse(resultIndex: number) {
+    setCustomSelections((prev) => {
+      const next = { ...prev }
+      delete next[resultIndex]
+      return next
+    })
+  }
+
+  function handleBulkSetUnmatched(indices: number[]) {
+    setManualSelections((prev) => {
+      const next = { ...prev }
+      for (const idx of indices) next[idx] = -1
+      return next
+    })
+    setCustomSelections((prev) => {
+      const next = { ...prev }
+      for (const idx of indices) delete next[idx]
+      return next
+    })
   }
 
   const effectiveResults = results.map((r, idx) => {
+    const manualCourse = customSelections[idx]
+    if (manualCourse) {
+      return {
+        ...r,
+        match: manualCourse,
+        score: 0,
+        method: 'manual_custom',
+      }
+    }
+
     const selectedRecIdx = manualSelections[idx]
     if (selectedRecIdx === undefined) return r
 
@@ -162,12 +222,13 @@ export default function VersionTwoPage() {
   const unmatchedCount = effectiveResults.length - matchedCount
   const totalSKS = effectiveResults.reduce((sum, r) => sum + (r.match?.sks ?? 0), 0)
   const totalSKSWajib = curricula[selectedKey]?.total_sks_lulus ?? 144
+  const allTargetCourses = curricula[selectedKey] ? flattenMK(curricula[selectedKey]) : []
   const { estSemesters, remainingSKS } = calculateStudyDuration(totalSKS, totalSKSWajib)
 
   return (
     <div className="glass-panel rounded-3xl p-5 md:p-6">
       <div className="mb-4 rounded-xl border border-emerald-100 bg-gradient-to-r from-emerald-50 to-cyan-50 px-4 py-3 text-sm font-medium text-emerald-700">
-        Versi 2: Evaluasi semantic AI ({'Xenova/paraphrase-multilingual-MiniLM-L12-v2'})
+        Versi 2: Evaluasi AI semantik ({'Xenova/paraphrase-multilingual-MiniLM-L12-v2'})
       </div>
 
       {!modelReady && (
@@ -196,7 +257,7 @@ export default function VersionTwoPage() {
       {isProcessing && (
         <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
           <p className="font-medium">
-            {semanticProgress?.message || 'Sedang memproses semantic matching, mohon tunggu...'}
+            {semanticProgress?.message || 'Sedang memproses pencocokan semantik, mohon tunggu...'}
           </p>
           <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-amber-100">
             <div
@@ -213,12 +274,12 @@ export default function VersionTwoPage() {
             </span>
             {semanticProgress?.cacheHits !== undefined && (
               <span>
-                Cache hit: {semanticProgress.cacheHits}
+                Cache ditemukan: {semanticProgress.cacheHits}
               </span>
             )}
             {semanticProgress?.cacheMisses !== undefined && (
               <span>
-                Cache miss: {semanticProgress.cacheMisses}
+                Cache tidak ditemukan: {semanticProgress.cacheMisses}
               </span>
             )}
           </div>
@@ -245,7 +306,12 @@ export default function VersionTwoPage() {
       <ResultsTable
         results={effectiveResults}
         selectedRecommendations={manualSelections}
+        customSelections={customSelections}
+        availableCourses={allTargetCourses}
         onSelectRecommendation={handleRecommendationSelect}
+        onSelectManualCourse={handleManualCourseSelect}
+        onClearManualCourse={handleClearManualCourse}
+        onBulkSetUnmatched={handleBulkSetUnmatched}
       />
     </div>
   )

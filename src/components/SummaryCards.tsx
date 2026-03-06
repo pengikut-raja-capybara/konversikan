@@ -15,7 +15,7 @@ export default function SummaryCards({
     { label: 'Sisa SKS', value: String(remainingSKS), accent: 'from-amber-400 to-orange-400', text: 'text-amber-700' },
     { label: 'Terkonversi', value: String(matchedCount), accent: 'from-emerald-500 to-teal-500', text: 'text-emerald-700' },
     { label: 'Tidak Cocok', value: String(unmatchedCount), accent: 'from-rose-500 to-red-500', text: 'text-rose-700' },
-    { label: `Est. Semester (dari ${totalSKSWajib} SKS)`, value: `~${estSemesters}`, accent: 'from-fuchsia-500 to-violet-500', text: 'text-violet-700' },
+    { label: `Estimasi Semester (dari ${totalSKSWajib} SKS)`, value: `~${estSemesters}`, accent: 'from-fuchsia-500 to-violet-500', text: 'text-violet-700' },
   ]
 
   return (
