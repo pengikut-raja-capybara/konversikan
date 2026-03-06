@@ -1,0 +1,118 @@
+{
+  "kurikulum": "Komunikasi PJJ S1 UNSIA",
+  "total_sks_lulus": 144,
+  "data_semester": [
+    {
+      "semester": 1,
+      "mata_kuliah": [
+        { "kode": "200501104", "nama": "Bahasa Inggris", "sks": 2 },
+        { "kode": "200501108", "nama": "ICT Literacy", "sks": 2 },
+        { "kode": "200501301", "nama": "Dasar-Dasar Jurnalistik", "sks": 3 },
+        { "kode": "200501302", "nama": "Dasar-Dasar Videografi", "sks": 3 },
+        { "kode": "200501201", "nama": "Pengantar Komunikasi Digital", "sks": 3 },
+        { "kode": "200501202", "nama": "Komunikasi Massa", "sks": 2 },
+        { "kode": "200501303", "nama": "Pengantar Corporate Communication", "sks": 3 }
+      ]
+    },
+    {
+      "semester": 2,
+      "mata_kuliah": [
+        { "kode": "200002206", "nama": "Estetika Humanisme", "sks": 2 },
+        { "kode": "200502101", "nama": "Pendidikan Pancasila", "sks": 2 },
+        { "kode": "200502203", "nama": "Teori Komunikasi Digital", "sks": 3 },
+        { "kode": "200502304", "nama": "Videografi Jurnalistik & Periklanan", "sks": 3 },
+        { "kode": "200502305", "nama": "Digital Imaging", "sks": 3 },
+        { "kode": "200502306", "nama": "Digital Marketing Communication", "sks": 3 },
+        { "kode": "200502204", "nama": "Komunikasi Antarpribadi & Budaya Siber", "sks": 3 }
+      ]
+    },
+    {
+      "semester": 3,
+      "mata_kuliah": [
+        { "kode": "200501102", "nama": "Pendidikan Kewarganegaraan", "sks": 2 },
+        { "kode": "210501109", "nama": "Bahasa Korea" },
+        { "kode": "200501107", "nama": "Pendidikan Agama", "sks": 2 },
+        { "kode": "200501205", "nama": "Public Speaking & Presentation", "sks": 3 },
+        { "kode": "200501307", "nama": "Cyber Journalism", "sks": 3 },
+        { "kode": "200501308", "nama": "Copywriting Digital", "sks": 3 },
+        { "kode": "200501309", "nama": "Cyber Public Relations", "sks": 3 },
+        { "kode": "200501206", "nama": "Regulasi Komunikasi Digital", "sks": 3 }
+      ]
+    },
+    {
+      "semester": 4,
+      "mata_kuliah": [
+        { "kode": "200002103", "nama": "Bahasa Indonesia", "sks": 2 },
+        { "kode": "200502206", "nama": "Statistika Sosial", "sks": 3 },
+        { "kode": "200502310", "nama": "Reportase dan Penulisan Naskah", "sks": 3 },
+        { "kode": "200502311", "nama": "Kajian Media Digital", "sks": 3 },
+        { "kode": "200502207", "nama": "Desain Komunikasi Visual", "sks": 2 },
+        { "kode": "200502312", "nama": "Manajemen Public Relations", "sks": 3 },
+        { "kode": "200502208", "nama": "Psikologi Komunikasi Digital", "sks": 3 }
+      ]
+    },
+    {
+      "semester": 5,
+      "mata_kuliah": [
+        { "kode": "200501208", "nama": "Komunikasi Politik", "sks": 3 },
+        { "kode": "200501209", "nama": "Literasi Media Digital", "sks": 3 },
+        { "kode": "200501313", "nama": "Podcast & Radio Digital", "sks": 3 },
+        { "kode": "200501212", "nama": "Metode Penelitian Kuantitatif", "sks": 3 },
+        { "kode": "200501314", "nama": "Marketing Public Relations", "sks": 3 },
+        { "kode": "200501315", "nama": "Strategi Komunikasi Digital", "sks": 3 }
+      ]
+    },
+    {
+      "semester": 6,
+      "mata_kuliah": [
+        { "kode": "200502105", "nama": "Kewirausahaan", "sks": 2 },
+        { "kode": "200502210", "nama": "Metode Penelitian Kualitatif", "sks": 3 },
+        { "kode": "200502316", "nama": "Produksi Media Digital Kreatif", "sks": 3 },
+        { "kode": "200502213", "nama": "Social Media Content Writing", "sks": 3 },
+        { "kode": "200502319", "nama": "Special Event Organizer", "sks": 3 },
+        { "kode": "200502214", "nama": "Digital Society Communication", "sks": 3 },
+        { "kode": "200502211", "nama": "Creative Grafis Design", "sks": 2 }
+      ]
+    },
+    {
+      "semester": 7,
+      "mata_kuliah": [
+        { "kode": "200501215", "nama": "Filsafat Komunikasi Digital", "sks": 3 },
+        { "kode": "200501320", "nama": "Seminar Komunikasi Media Digital", "sks": 3, "konsentrasi": "Digital Content Creator" },
+        { "kode": "200501321", "nama": "Seminar Corporate Communication", "sks": 3, "konsentrasi": "Corporate Communication" },
+        { "kode": "200501322", "nama": "Campaign Digital & Publisitas", "sks": 3 },
+        { "kode": "200501323", "nama": "Produksi Video Kreatif Digital", "sks": 3 },
+        { "kode": "200501324", "nama": "Corporate Sosial Responsibility", "sks": 3 },
+        { "kode": "200501325", "nama": "Praktek Kerja Komunikasi (PKK)", "sks": 3 }
+      ]
+    },
+    {
+      "semester": 8,
+      "mata_kuliah": [
+        {
+          "opsi_label": "Peminatan Digital Content Creative",
+          "opsi": [
+            { "kode": "200502401", "nama": "Vlog Production", "sks": 3 },
+            { "kode": "200502402", "nama": "Social Media Specialist", "sks": 2 },
+            { "kode": "200502403", "nama": "Creative Mediapreneur", "sks": 2 },
+            { "kode": "200502404", "nama": "Digital Video Editing", "sks": 3 },
+            { "kode": "200502405", "nama": "Digital Media Critism", "sks": 2 },
+            { "kode": "200502409", "nama": "Creative Thinking", "sks": 3 }
+          ]
+        },
+        {
+          "opsi_label": "Peminatan Corporate Communication",
+          "opsi": [
+            { "kode": "200502406", "nama": "Stakeholders Mapping", "sks": 3 },
+            { "kode": "200502407", "nama": "Audit Komunikasi Digital", "sks": 2 },
+            { "kode": "200502408", "nama": "Teknik Lobby & Negosiasi", "sks": 2 },
+            { "kode": "200502409", "nama": "Creative Thinking", "sks": 3 },
+            { "kode": "200502410", "nama": "Komunikasi Krisis & Reputasi", "sks": 3 },
+            { "kode": "200502411", "nama": "Writing Public Relations", "sks": 2 }
+          ]
+        },
+        { "kode": "200502412", "nama": "Tugas Akhir/Karya Media Digital", "sks": 6 }
+      ]
+    }
+  ]
+}

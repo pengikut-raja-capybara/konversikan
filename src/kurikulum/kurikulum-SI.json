@@ -1,0 +1,125 @@
+{
+  "kurikulum": "Sistem Informasi PJJ S1 UNSIA",
+  "total_sks_lulus": 144,
+  "data_semester": [
+    {
+      "semester": 1,
+      "mata_kuliah": [
+        { "kode": "200002104", "nama": "Bahasa Inggris", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200002108", "nama": "ICT Literacy", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200201201", "nama": "Manajemen Umum", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200201202", "nama": "Dasar-Dasar Pemrograman", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200201203", "nama": "Struktur Data dan Algoritma", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201204", "nama": "Pengantar Teknologi Sistem Informasi", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200201205", "nama": "Pengantar Sistem Informasi Bisnis", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200201206", "nama": "Manajemen Teknologi Sistem Informasi", "teori": 2, "praktik": 0, "sks": 2 }
+      ]
+    },
+    {
+      "semester": 2,
+      "mata_kuliah": [
+        { "kode": "200001101", "nama": "Pancasila", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200002106", "nama": "Estetika Humanisme", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200202207", "nama": "Matematika Diskrit", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202208", "nama": "Aljabar Linear", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202209", "nama": "Organisasi dan Arsitektur Komputer", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202210", "nama": "Teori Prilaku Organisasi", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202211", "nama": "Analisis Proses Bisnis", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200202212", "nama": "Sistem Operasi", "teori": 2, "praktik": 1, "sks": 3 }
+      ]
+    },
+    {
+      "semester": 3,
+      "mata_kuliah": [
+        { "kode": "200001102", "nama": "Pendidikan Kewarganegaraan", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200001107", "nama": "Agama", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "nama": "Bahasa Korea", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200201213", "nama": "Statistika dan Probabilitas", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201300", "nama": "Pemrograman Lanjut", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200201301", "nama": "Sistem Basis Data", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200201302", "nama": "Komunikasi Data dan Jaringan Komputer", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201303", "nama": "Interaksi Manusia dan Komputer", "teori": 3, "praktik": 0, "sks": 3 }
+      ]
+    },
+    {
+      "semester": 4,
+      "mata_kuliah": [
+        { "kode": "200002103", "nama": "Bahasa Indonesia", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200202304", "nama": "Business Intelligent", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200202305", "nama": "Keamanan Sistem Informasi", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200202306", "nama": "E-Business", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200202307", "nama": "Pemrograman Visual", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200202214", "nama": "Sistem Informasi Akutansi", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200202308", "nama": "Pemrograman Berorientasi Objek", "teori": 2, "praktik": 1, "sks": 3 }
+      ]
+    },
+    {
+      "semester": 5,
+      "mata_kuliah": [
+        { "kode": "200201309", "nama": "Pemrograman Berbasis Web", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200201310", "nama": "Analisis dan Perancangan Sistem Informasi", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201311", "nama": "Data Mining", "teori": 2, "praktik": 1, "sks": 3 },
+        { "kode": "200201312", "nama": "Analisis dan Visualisasi Data", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201313", "nama": "Kecerdasan Buatan", "teori": 3, "praktik": 0, "sks": 3 },
+        {
+          "opsi_label": "Pilihan 1",
+          "opsi": [
+            { "kode": "200201400", "nama": "E-Commerce", "sks": 3 },
+            { "kode": "200201401", "nama": "Sistem Pendukung Keputusan", "sks": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "semester": 6,
+      "mata_kuliah": [
+        { "kode": "200202314", "nama": "Rekayasa Perangkat Lunak", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200202315", "nama": "Kerja Praktek", "teori": 0, "praktik": 2, "sks": 2 },
+        { "kode": "200002105", "nama": "Kewirausahaan", "teori": 2, "praktik": 0, "sks": 2, "kategori": "MKU" },
+        { "kode": "200202316", "nama": "Metodologi Riset dan Penulisan Ilmiah SI", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202317", "nama": "Enterprise Resource Planning", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200202318", "nama": "Arsitektur Sistem Enterprise", "teori": 3, "praktik": 0, "sks": 3 },
+        {
+          "opsi_label": "Pilihan 2",
+          "opsi": [
+            { "kode": "200202402", "nama": "Data Warehouse/ OLAP", "sks": 3, "peminatan": "Business Intelligent" },
+            { "kode": "200202403", "nama": "Knowledge Management", "sks": 3, "peminatan": "E-Business" }
+          ]
+        }
+      ]
+    },
+    {
+      "semester": 7,
+      "mata_kuliah": [
+        { "kode": "200201319", "nama": "Manajemen Proyek Sistem Informasi", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201320", "nama": "Manajemen Resiko dan Kualitas SI", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201321", "nama": "Tata Kelola dan Audit Sistem Informasi", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201322", "nama": "Testing dan Implementasi Sistem Informasi", "teori": 3, "praktik": 0, "sks": 3 },
+        { "kode": "200201323", "nama": "Pemrograman Bergerak (Mobile)", "teori": 2, "praktik": 1, "sks": 3 },
+        {
+          "opsi_label": "Pilihan 3",
+          "opsi": [
+            { "kode": "200201404", "nama": "Analisis Media Sosial", "sks": 3, "peminatan": "Business Intelligent" },
+            { "kode": "200201405", "nama": "E-Government", "sks": 3, "peminatan": "E-Business" }
+          ]
+        }
+      ]
+    },
+    {
+      "semester": 8,
+      "mata_kuliah": [
+        { "kode": "200202324", "nama": "Tugas Akhir", "teori": 0, "praktik": 6, "sks": 6 },
+        { "kode": "200202325", "nama": "Interpersonal Skill", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202326", "nama": "Inovasi Kreatif Digital", "teori": 2, "praktik": 0, "sks": 2 },
+        { "kode": "200202327", "nama": "Etika Profesi Sistem Informasi", "teori": 2, "praktik": 0, "sks": 2 },
+        {
+          "opsi_label": "Pilihan 4",
+          "opsi": [
+            { "kode": "200202406", "nama": "Financial Technology", "sks": 3, "peminatan": "E-Business" },
+            { "kode": "200202407", "nama": "Big Data For Business", "sks": 3, "peminatan": "Business Intelligent" }
+          ]
+        }
+      ]
+    }
+  ]
+}

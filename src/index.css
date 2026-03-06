@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+	--brand-ink: #1b2a6b;
+	--brand-core: #2f4cdd;
+	--brand-accent: #14b8a6;
+	--brand-soft: #e8eeff;
+	--surface: #ffffff;
+	--surface-muted: #f5f8ff;
+	--stroke: #d8e1ff;
+}
+
+body[data-theme='night'] {
+	--brand-ink: #d9e4ff;
+	--brand-core: #7f9cff;
+	--brand-accent: #34d399;
+	--brand-soft: #18234c;
+	--surface: #111c44;
+	--surface-muted: #152252;
+	--stroke: #273b7b;
+}
+
+@layer base {
+	html, body, #root {
+		min-height: 100%;
+	}
+
+	body {
+		font-family: 'Plus Jakarta Sans', sans-serif;
+		color: #1e293b;
+		background:
+			radial-gradient(circle at 12% 8%, #d9e6ff 0%, rgba(217, 230, 255, 0) 38%),
+			radial-gradient(circle at 90% 15%, #d5f5ef 0%, rgba(213, 245, 239, 0) 30%),
+			linear-gradient(165deg, #f2f7ff 0%, #eef4ff 50%, #f6fbff 100%);
+		background-attachment: fixed;
+	}
+
+	body[data-theme='night'] {
+		color: #d8e3ff;
+		background:
+			radial-gradient(circle at 14% 8%, #263a79 0%, rgba(38, 58, 121, 0) 42%),
+			radial-gradient(circle at 86% 18%, #145263 0%, rgba(20, 82, 99, 0) 34%),
+			linear-gradient(165deg, #0a1230 0%, #111f4a 55%, #0b1738 100%);
+	}
+}
+
+@layer components {
+	.brand-heading {
+		font-family: 'Sora', sans-serif;
+		letter-spacing: -0.02em;
+	}
+
+	.glass-panel {
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 100%);
+		border: 1px solid var(--stroke);
+		box-shadow: 0 14px 40px rgba(30, 64, 175, 0.1);
+		backdrop-filter: blur(8px);
+	}
+
+	body[data-theme='night'] .glass-panel {
+		background: linear-gradient(180deg, rgba(18, 32, 74, 0.92) 0%, rgba(18, 32, 74, 0.88) 100%);
+		box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+	}
+
+	body[data-theme='night'] .app-shell .bg-white,
+	body[data-theme='night'] .app-shell .bg-white\/90,
+	body[data-theme='night'] .app-shell .bg-white\/75,
+	body[data-theme='night'] .app-shell .bg-white\/70,
+	body[data-theme='night'] .app-shell .bg-slate-50,
+	body[data-theme='night'] .app-shell .bg-gray-50 {
+		background-color: rgba(17, 29, 68, 0.86) !important;
+	}
+
+	body[data-theme='night'] .app-shell .border-slate-200,
+	body[data-theme='night'] .app-shell .border-gray-200,
+	body[data-theme='night'] .app-shell .border-indigo-100,
+	body[data-theme='night'] .app-shell .border-emerald-100 {
+		border-color: rgba(111, 142, 255, 0.32) !important;
+	}
+
+	body[data-theme='night'] .app-shell .text-slate-900,
+	body[data-theme='night'] .app-shell .text-slate-800,
+	body[data-theme='night'] .app-shell .text-slate-700,
+	body[data-theme='night'] .app-shell .text-gray-900,
+	body[data-theme='night'] .app-shell .text-gray-800,
+	body[data-theme='night'] .app-shell .text-gray-700 {
+		color: #e2ebff !important;
+	}
+
+	body[data-theme='night'] .app-shell .text-slate-600,
+	body[data-theme='night'] .app-shell .text-slate-500,
+	body[data-theme='night'] .app-shell .text-gray-600,
+	body[data-theme='night'] .app-shell .text-gray-500,
+	body[data-theme='night'] .app-shell .text-gray-400 {
+		color: #b7c8ff !important;
+	}
+
+	body[data-theme='night'] .app-shell input,
+	body[data-theme='night'] .app-shell select {
+		background-color: rgba(18, 33, 75, 0.92);
+		border-color: rgba(123, 151, 255, 0.3);
+		color: #e3ecff;
+	}
+
+	body[data-theme='night'] .app-shell table thead {
+		background: linear-gradient(90deg, rgba(56, 88, 197, 0.28) 0%, rgba(27, 98, 132, 0.28) 100%) !important;
+	}
+
+	body[data-theme='night'] .app-shell code {
+		background-color: rgba(128, 150, 255, 0.18);
+		color: #d9e4ff;
+	}
+
+	.float-orb {
+		position: absolute;
+		border-radius: 9999px;
+		filter: blur(2px);
+		opacity: 0.45;
+		pointer-events: none;
+	}
+
+	.fade-up {
+		animation: fade-up 0.55s ease-out both;
+	}
+
+	.fade-up-delay-1 {
+		animation: fade-up 0.55s ease-out both;
+		animation-delay: 90ms;
+	}
+
+	.fade-up-delay-2 {
+		animation: fade-up 0.55s ease-out both;
+		animation-delay: 180ms;
+	}
+
+	.fade-up-delay-3 {
+		animation: fade-up 0.55s ease-out both;
+		animation-delay: 260ms;
+	}
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

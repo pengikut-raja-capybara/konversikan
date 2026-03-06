@@ -1,0 +1,126 @@
+{
+  "kurikulum": "Akuntansi PJJ S1 UNSIA",
+  "total_sks_lulus": 144,
+  "data_semester": [
+    {
+      "semester": 1,
+      "mata_kuliah": [
+        { "kode": "200401101", "nama": "Pengantar Akuntansi 1", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401102", "nama": "Pengantar Perpajakan", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401103", "nama": "Ekonomi Mikro", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401104", "nama": "Matematika Ekonomi dan Bisnis", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402203", "nama": "Pengantar Manajemen", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200501104", "nama": "Bahasa Inggris", "sks": 2, "kategori": "MKU" },
+        { "kode": "200001108", "nama": "ICT Literacy", "sks": 2, "kategori": "MKU" }
+      ]
+    },
+    {
+      "semester": 2,
+      "mata_kuliah": [
+        { "kode": "200402201", "nama": "Pengantar Akuntansi 2", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402202", "nama": "Ekonomi Makro", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402204", "nama": "Ketentuan Umum dan Tata Cara Perpajakan (KUP)", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402205", "nama": "Perpajakan 1", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402206", "nama": "Statistik Ekonomi dan Bisnis", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200002101", "nama": "Pendidikan Pancasila", "sks": 2, "kategori": "MKU" },
+        { "kode": "200002106", "nama": "Estetika Humanisme", "sks": 2, "kategori": "MKU" }
+      ]
+    },
+    {
+      "semester": 3,
+      "mata_kuliah": [
+        { "kode": "200401301", "nama": "Akuntansi Keuangan 1", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200401207", "nama": "Digital Marketing", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401208", "nama": "Akuntansi Biaya", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401302", "nama": "Kepabeanan dan Cukai", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200401303", "nama": "Perpajakan 2", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200501102", "nama": "Pendidikan Kewarganegaraan", "sks": 2, "kategori": "MKU" },
+        { "kode": "200501107", "nama": "Pendidikan Agama", "sks": 2, "kategori": "MKU" },
+        { "kode": "210301109", "nama": "Bahasa Korea", "sks": 2, "kategori": "MKU" }
+      ]
+    },
+    {
+      "semester": 4,
+      "mata_kuliah": [
+        { "kode": "200402304", "nama": "Akuntansi Keuangan 2", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200402209", "nama": "Akuntansi Manajemen", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402210", "nama": "Manajemen Rantai Pasok", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402211", "nama": "E Commerce Business", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200402212", "nama": "Manajemen Keuangan 1", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402213", "nama": "Akuntansi Sektor Publik", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402214", "nama": "Komunikasi Bisnis", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200002103", "nama": "Bahasa Indonesia", "sks": 2, "kategori": "MKU" }
+      ]
+    },
+    {
+      "semester": 5,
+      "mata_kuliah": [
+        { "kode": "200401215", "nama": "Manajemen Keuangan 2", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401216", "nama": "Sistem Informasi Akuntansi", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401217", "nama": "Perilaku Organisasi", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200401218", "nama": "Teori Akuntansi", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401219", "nama": "Analisis Sekuritas dan Portofolio", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200401220", "nama": "Praktikum Perpajakan", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200401222", "nama": "Manajemen Stratejik", "sks": 2, "kategori": "MKWP" }
+      ]
+    },
+    {
+      "semester": 6,
+      "mata_kuliah": [
+        { "kode": "200402223", "nama": "Manajemen Risiko", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402224", "nama": "Metode Penelitian Akuntansi", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402305", "nama": "Digital Auditing 1", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200402225", "nama": "Digital Audit Internal", "sks": 3, "kategori": "MKWP" },
+        { "kode": "200402306", "nama": "Akuntansi Keuangan Lanjutan 1", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200401221", "nama": "Hukum Bisnis", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200002102", "nama": "Pendidikan Kewirausahaan", "sks": 2, "kategori": "MKU" },
+        { "kode": "200402228", "nama": "Praktikum Akuntansi Berbasis IT", "sks": 2, "kategori": "MKWP" }
+      ]
+    },
+    {
+      "semester": 7,
+      "mata_kuliah": [
+        { "kode": "200401308", "nama": "Digital Auditing 2", "sks": 3, "kategori": "MKKP" },
+        { "kode": "200401226", "nama": "Sistem Pengendalian Manajemen", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200401401", "nama": "Kepemimpinan dan etika Bisnis", "sks": 3, "kategori": "MKP" },
+        {
+          "opsi_label": "Pilihan 1",
+          "opsi": [
+            { "kode": "200401402", "nama": "Akuntansi Keuangan Lanjutan 2", "kategori": "MKP1" },
+            { "kode": "200401403", "nama": "Praktek Akuntansi dan Bisnis Kontemporer", "kategori": "MKP1" },
+            { "kode": "200401404", "nama": "Akuntansi Keuangan Berkelanjutan", "kategori": "MKP1" }
+          ]
+        },
+        {
+          "opsi_label": "Pilihan 2",
+          "opsi": [
+            { "kode": "200401405", "nama": "Perpajakan Internasional", "kategori": "MKP2" },
+            { "kode": "200401406", "nama": "Manajemen Perpajakan", "kategori": "MKP2" },
+            { "kode": "200401407", "nama": "Akuntansi Perpajakan", "kategori": "MKP2" }
+          ]
+        },
+        {
+          "opsi_label": "Pilihan 3",
+          "opsi": [
+            { "kode": "200401408", "nama": "Audit Forensik Digital dan Audit Investigasi", "kategori": "MKP3" },
+            { "kode": "200401409", "nama": "Analisis Laporan Keuangan berbasis IT", "kategori": "MKP3" },
+            { "kode": "200401410", "nama": "Audit Sistem Informasi", "kategori": "MKP3" }
+          ]
+        }
+      ]
+    },
+    {
+      "semester": 8,
+      "mata_kuliah": [
+        { "kode": "200402227", "nama": "Corporate Governance", "sks": 2, "kategori": "MKWP" },
+        { "kode": "200402228", "nama": "Skripsi", "sks": 6, "kategori": "MKWP" }
+      ]
+    },
+    {
+      "semester": 9,
+      "mata_kuliah": [
+        { "kode": "200402307", "nama": "Special Topics in Accounting", "sks": 2, "kategori": "MKKP" }
+      ]
+    }
+  ]
+}

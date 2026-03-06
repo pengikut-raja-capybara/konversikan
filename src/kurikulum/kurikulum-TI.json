@@ -1,0 +1,135 @@
+{
+  "kurikulum": "Teknologi Informasi UNSIA",
+  "total_sks_lulus": 144,
+  "data_semester": [
+    {
+      "semester": 1,
+      "mata_kuliah": [
+        { "kode": "250601001", "nama": "Kalkulus I", "sks": 3, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250601002", "nama": "Fisika Dasar", "sks": 3, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250601003", "nama": "Bahasa Inggris", "sks": 2, "area": "MKGE", "status": "MKWP" },
+        { "kode": "250601004", "nama": "Literasi Teknologi Informasi dan Komunikasi", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250601005", "nama": "Dasar Pemrograman", "sks": 2, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250601006", "nama": "Literasi Kecerdasan Buatan dan Inovasi", "sks": 2, "area": "MKGE", "status": "MKWP" },
+        { "kode": "250601007", "nama": "Bahasa Indonesia", "sks": 3, "area": "MKWK", "status": "MKCU" }
+      ]
+    },
+    {
+      "semester": 2,
+      "mata_kuliah": [
+        { "kode": "250602008", "nama": "Pancasila", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250602009", "nama": "Estetika Humanisme", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250602010", "nama": "Teori Informasi", "sks": 3, "area": "MKGE", "status": "MKWP" },
+        { "kode": "250602011", "nama": "Matematika Diskrit", "sks": 3, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250602012", "nama": "Arsitektur dan Organisasi Komputer", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250602013", "nama": "Aljabar Linier", "sks": 3, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250602014", "nama": "Algoritma dan Pemrograman", "sks": 2, "area": "MKBS", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 3,
+      "mata_kuliah": [
+        { "kode": "250603015", "nama": "Agama", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250603016", "nama": "Kewarganegaraan", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250603017", "nama": "Statistika dan Probabiltas", "sks": 3, "area": "MKET", "status": "MKWP" },
+        { "kode": "250603018", "nama": "Jaringan Komputer", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250603019", "nama": "Struktur Data", "sks": 3, "area": "MKET", "status": "MKWP" },
+        { "kode": "250603020", "nama": "Bahasa Korea", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250603021", "nama": "Metode Numerik", "sks": 3, "area": "MKBS", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 4,
+      "mata_kuliah": [
+        { "kode": "250604022", "nama": "Sistem Operasi", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250604023", "nama": "Pengantar Keamanan Siber", "sks": 2, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250604024", "nama": "Sistem Digital", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250604025", "nama": "Pemrograman SQL", "sks": 3, "area": "MKET", "status": "MKWP" },
+        { "kode": "250604026", "nama": "Komunikasi Data dan Komputer", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250604027", "nama": "Kriptografi dan Steganografi", "sks": 3, "area": "MKET", "status": "MKWP" },
+        { "kode": "250604028", "nama": "Pengembangan Aplikasi Web I", "sks": 2, "area": "MKET", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 5,
+      "mata_kuliah": [
+        { "kode": "250605029", "nama": "Pengembangan Aplikasi Web II", "sks": 2, "area": "MKGE", "status": "MKWP" },
+        { "kode": "250605030", "nama": "Kalkulus II", "sks": 3, "area": "MKBS", "status": "MKWP" },
+        { "kode": "250605031", "nama": "Arsitektur Perusahaan", "sks": 2, "area": "MKET", "status": "MKWP" },
+        {
+          "opsi_label": "Pilihan Prodi 1",
+          "opsi": [
+            { "kode": "250605032", "nama": "Manajemen Infrastruktur", "sks": 3 },
+            { "kode": "250605033", "nama": "Teknologi Nirkabel", "sks": 3 },
+            { "kode": "250605034", "nama": "Kepemimpinan Digital dan Profesionalisme", "sks": 3 }
+          ]
+        },
+        { "kode": "250605035", "nama": "Arsitektur Jaringan", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250605036", "nama": "Kecerdasan Buatan", "sks": 2, "area": "MKET", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 6,
+      "mata_kuliah": [
+        { "kode": "250606037", "nama": "Manajemen Keamanan Siber", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250606038", "nama": "Komputasi Awan dan Virtualisasi", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250606039", "nama": "Enkripsi Data dan Keamanan", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250606040", "nama": "Kewirausahaan", "sks": 2, "area": "MKWK", "status": "MKCU" },
+        { "kode": "250606041", "nama": "Metodologi Penelitian dan Penulisan Ilmiah", "sks": 3, "area": "MKGE", "status": "MKWP" },
+        {
+          "opsi_label": "Peminatan 1",
+          "opsi": [
+            { "kode": "250606042", "nama": "Sistem Cerdas", "sks": 2, "peminatan": "BDA" },
+            { "kode": "250606043", "nama": "Pemrograman Platform dan IoT", "sks": 2, "peminatan": "ISDEV" },
+            { "kode": "250606044", "nama": "Keamanan Jaringan", "sks": 2, "peminatan": "NSP" },
+            { "kode": "250606045", "nama": "Deep Learning", "sks": 2, "peminatan": "BDA" }
+          ]
+        },
+        { "kode": "250606046", "nama": "Interaksi Manusia Komputer", "sks": 2, "area": "MKGE", "status": "MKWP" }
+      ]
+    },
+    {
+      "semester": 7,
+      "mata_kuliah": [
+        { "kode": "250607047", "nama": "Rekayasa Perangkat Lunak", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250607048", "nama": "Proyek Teknologi Informasi", "sks": 3, "area": "MKET", "status": "MKWP" },
+        { "kode": "250607049", "nama": "Pemrograman Perangkat Bergerak", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250607050", "nama": "Visi Komputer", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250607051", "nama": "Manajemen Layanan Teknologi Informasi", "sks": 2, "area": "MKGE", "status": "MKWP" },
+        {
+          "opsi_label": "Pilihan Prodi 2",
+          "opsi": [
+            { "kode": "250607052", "nama": "Komputasi Tepi (Edge Computing)", "sks": 2 },
+            { "kode": "250607053", "nama": "Peretasan Etis (Ethical Hacking)", "sks": 2 },
+            { "kode": "250607054", "nama": "Komputasi Kuantum", "sks": 2 }
+          ]
+        },
+        {
+          "opsi_label": "Pilihan Prodi 3",
+          "opsi": [
+            { "kode": "250607055", "nama": "Keamanan Komputasi Awan", "sks": 2 },
+            { "kode": "250607056", "nama": "Forensik Digital", "sks": 2 }
+          ]
+        }
+      ]
+    },
+    {
+      "semester": 8,
+      "mata_kuliah": [
+        { "kode": "250608057", "nama": "Robotika Berbasis Kecerdasan Buatan", "sks": 2, "area": "MKET", "status": "MKWP" },
+        { "kode": "250608058", "nama": "Kerja Praktek", "sks": 4, "area": "MKGE", "status": "MKWP" },
+        { "kode": "250608059", "nama": "Kecerdasan Buatan Generatif", "sks": 2, "area": "MKET", "status": "MKWP" },
+        {
+          "opsi_label": "Peminatan 2",
+          "opsi": [
+            { "kode": "250608060", "nama": "Teknologi Blockchain", "sks": 2, "peminatan": "BDA" },
+            { "kode": "250608061", "nama": "Jaringan Nirkabel", "sks": 2, "peminatan": "ISDEV" },
+            { "kode": "250608062", "nama": "Keamanan Web dan Aplikasi", "sks": 2, "peminatan": "NSP" },
+            { "kode": "250608063", "nama": "Large Language Model (LLM)", "sks": 2, "peminatan": "BDA" }
+          ]
+        },
+        { "kode": "250608064", "nama": "Tugas Akhir", "sks": 6, "area": "MKET", "status": "MKWP" }
+      ]
+    }
+  ]
+}
