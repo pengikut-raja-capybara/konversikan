@@ -4,14 +4,22 @@ import type {
   Curriculum,
   MataKuliah,
   MatchResult,
-  ParseResult,
   TranscriptCourse,
 } from '../types'
 import ProdiSelector from '../components/ProdiSelector'
 import FileUploader from '../components/FileUploader'
 import SummaryCards from '../components/SummaryCards'
 import ResultsTable from '../components/ResultsTable'
+import { buildEffectiveResults } from '../utils/effectiveResults'
 import { flattenMK, matchTranscript } from '../utils/matching'
+import {
+  applyParsedFile,
+  bulkSetUnmatchedSelections,
+  clearManualCourseSelection,
+  resetUploaderAndSelections,
+  setManualCourseSelection,
+  setRecommendationSelection,
+} from '../utils/selectionHandlers'
 import { calculateStudyDuration } from '../utils/studyDuration'
 
 export default function VersionOnePage() {
@@ -55,105 +63,7 @@ export default function VersionOnePage() {
     setCustomSelections({})
   }, [transcript, selectedKey, curricula])
 
-  function handleProdiChange(key: string) {
-    setSelectedKey(key)
-    setResults([])
-    setTranscript([])
-    setFileName('')
-    setStudentName('')
-    setAsalKampus('')
-    setManualSelections({})
-    setCustomSelections({})
-    uploaderRef.current?.reset()
-  }
-
-  function handleFileParsed(result: ParseResult, name: string) {
-    setTranscript(result.courses)
-    setFileName(name)
-    setStudentName(result.studentName ?? '')
-    setAsalKampus(result.asalKampus ?? '')
-    setManualSelections({})
-    setCustomSelections({})
-  }
-
-  function handleRecommendationSelect(resultIndex: number, recommendationIndex: number) {
-    setManualSelections((prev) => ({
-      ...prev,
-      [resultIndex]: recommendationIndex,
-    }))
-    setCustomSelections((prev) => {
-      const next = { ...prev }
-      delete next[resultIndex]
-      return next
-    })
-  }
-
-  function handleManualCourseSelect(resultIndex: number, course: MataKuliah) {
-    setCustomSelections((prev) => ({
-      ...prev,
-      [resultIndex]: course,
-    }))
-    setManualSelections((prev) => {
-      const next = { ...prev }
-      delete next[resultIndex]
-      return next
-    })
-  }
-
-  function handleClearManualCourse(resultIndex: number) {
-    setCustomSelections((prev) => {
-      const next = { ...prev }
-      delete next[resultIndex]
-      return next
-    })
-  }
-
-  function handleBulkSetUnmatched(indices: number[]) {
-    setManualSelections((prev) => {
-      const next = { ...prev }
-      for (const idx of indices) next[idx] = -1
-      return next
-    })
-    setCustomSelections((prev) => {
-      const next = { ...prev }
-      for (const idx of indices) delete next[idx]
-      return next
-    })
-  }
-
-  const effectiveResults = results.map((r, idx) => {
-    const manualCourse = customSelections[idx]
-    if (manualCourse) {
-      return {
-        ...r,
-        match: manualCourse,
-        score: 0,
-        method: 'manual_custom',
-      }
-    }
-
-    const selectedRecIdx = manualSelections[idx]
-    if (selectedRecIdx === undefined) return r
-
-    if (selectedRecIdx === -1) {
-      return {
-        ...r,
-        match: undefined,
-        score: 0,
-        method: 'manual_unmatched',
-      }
-    }
-
-    const selectedRec = r.recommendations?.[selectedRecIdx]
-    if (!selectedRec) return r
-
-    return {
-      ...r,
-      match: selectedRec.match,
-      score: selectedRec.score,
-      method: 'manual',
-    }
-  })
+  const effectiveResults = buildEffectiveResults(results, manualSelections, customSelections)
 
   const matchedCount = effectiveResults.filter((r) => r.match).length
   const unmatchedCount = effectiveResults.length - matchedCount
@@ -172,10 +82,30 @@ export default function VersionOnePage() {
         <ProdiSelector
           curricula={curricula}
           selectedKey={selectedKey}
-          onChange={handleProdiChange}
+          onChange={(key) => resetUploaderAndSelections(
+            setSelectedKey,
+            key,
+            setResults,
+            setTranscript,
+            setFileName,
+            setStudentName,
+            setAsalKampus,
+            setManualSelections,
+            setCustomSelections,
+            uploaderRef,
+          )}
         />
         <FileUploader
-          onParsed={handleFileParsed}
+          onParsed={(parsed, name) => applyParsedFile(
+            parsed,
+            name,
+            setTranscript,
+            setFileName,
+            setStudentName,
+            setAsalKampus,
+            setManualSelections,
+            setCustomSelections,
+          )}
           fileName={fileName}
           courseCount={transcript.length}
           studentName={studentName}
@@ -200,10 +130,20 @@ export default function VersionOnePage() {
         selectedRecommendations={manualSelections}
         customSelections={customSelections}
         availableCourses={allTargetCourses}
-        onSelectRecommendation={handleRecommendationSelect}
-        onSelectManualCourse={handleManualCourseSelect}
-        onClearManualCourse={handleClearManualCourse}
-        onBulkSetUnmatched={handleBulkSetUnmatched}
+        onSelectRecommendation={(resultIndex, recommendationIndex) => setRecommendationSelection(
+          resultIndex,
+          recommendationIndex,
+          setManualSelections,
+          setCustomSelections,
+        )}
+        onSelectManualCourse={(resultIndex, course) => setManualCourseSelection(
+          resultIndex,
+          course,
+          setManualSelections,
+          setCustomSelections,
+        )}
+        onClearManualCourse={(resultIndex) => clearManualCourseSelection(resultIndex, setCustomSelections)}
+        onBulkSetUnmatched={(indices) => bulkSetUnmatchedSelections(indices, setManualSelections, setCustomSelections)}
         originalTranscript={transcript}
         studentName={studentName}
         asalKampus={asalKampus}

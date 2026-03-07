@@ -1,17 +1,11 @@
 import type { ChangeEvent } from 'react'
-import type { Curriculum } from '../types'
+import type { ProdiSelectorProps } from '../types/components'
 
-interface Props {
-  curricula: Record<string, Curriculum>
-  selectedKey: string
-  onChange: (key: string) => void
+function handleProdiSelectChange(e: ChangeEvent<HTMLSelectElement>, onChange: ProdiSelectorProps['onChange']) {
+  onChange(e.target.value)
 }
 
-export default function ProdiSelector({ curricula, selectedKey, onChange }: Props) {
-  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
-    onChange(e.target.value)
-  }
-
+export default function ProdiSelector({ curricula, selectedKey, onChange }: ProdiSelectorProps) {
   return (
     <div className="rounded-2xl border border-indigo-100 bg-[var(--surface)] p-6 shadow-[0_8px_28px_rgba(30,64,175,0.08)]">
       <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -19,7 +13,7 @@ export default function ProdiSelector({ curricula, selectedKey, onChange }: Prop
       </label>
       <select
         value={selectedKey}
-        onChange={handleChange}
+        onChange={(e) => handleProdiSelectChange(e, onChange)}
         className="w-full rounded-xl border border-indigo-100 bg-[var(--surface-muted)] px-4 py-2.5 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
       >
         {Object.keys(curricula).map((k) => (

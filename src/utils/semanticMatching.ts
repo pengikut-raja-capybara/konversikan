@@ -1,5 +1,11 @@
 import { cos_sim } from '@huggingface/transformers'
 import type { Curriculum, MatchResult, MataKuliah, Recommendation, TranscriptCourse } from '../types'
+import type {
+  FeatureExtractor,
+  ProgressStage,
+  SemanticMatchOptions,
+  SemanticProgress,
+} from '../types/semantic'
 import { flattenMK } from './matching'
 import { calculateSimilarity } from './similarity'
 
@@ -15,28 +21,6 @@ const BLACKLIST = [
 const VALID_GRADES = new Set([
   'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'AB', 'BC', 'CB',
 ])
-
-type FeatureExtractor = (inputs: string[] | string, options?: Record<string, unknown>) => Promise<unknown>
-type ProgressStage =
-  | 'loading_model'
-  | 'encoding_source'
-  | 'encoding_target'
-  | 'scoring'
-  | 'done'
-
-export interface SemanticProgress {
-  stage: ProgressStage
-  processed: number
-  total: number
-  percent: number
-  message: string
-  cacheHits?: number
-  cacheMisses?: number
-}
-
-interface SemanticMatchOptions {
-  onProgress?: (progress: SemanticProgress) => void
-}
 
 let extractorPromise: Promise<FeatureExtractor> | null = null
 let modelReady = false

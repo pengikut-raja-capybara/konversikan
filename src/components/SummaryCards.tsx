@@ -1,15 +1,8 @@
-interface Props {
-  matchedCount: number
-  unmatchedCount: number
-  totalSKS: number
-  estSemesters: number
-  remainingSKS: number
-  totalSKSWajib: number
-}
+import type { SummaryCardsProps } from '../types/components'
 
 export default function SummaryCards({
   matchedCount, unmatchedCount, totalSKS, estSemesters, remainingSKS, totalSKSWajib,
-}: Props) {
+}: SummaryCardsProps) {
   const cards = [
     { label: 'SKS Diakui', value: String(totalSKS), accent: 'from-indigo-500 to-blue-500', text: 'text-indigo-700' },
     { label: 'Sisa SKS', value: String(remainingSKS), accent: 'from-amber-400 to-orange-400', text: 'text-amber-700' },

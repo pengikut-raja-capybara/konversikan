@@ -2,43 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, AllCommunityModule, type ColDef, type RowClassParams, type ValueFormatterParams, themeBalham } from "ag-grid-community";
-import type { MataKuliah, MatchResult, TranscriptCourse } from "../types";
+import type { MatchResult } from "../types";
+import type { ResultsTableProps, ResultsTableRow } from "../types/components";
 import * as XLSX from "xlsx";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
-
-interface ResultsTableProps {
-  results: MatchResult[];
-  selectedRecommendations: Record<number, number>;
-  customSelections: Record<number, MataKuliah>;
-  availableCourses: MataKuliah[];
-  onSelectRecommendation: (resultIndex: number, recommendationIndex: number) => void;
-  onSelectManualCourse: (resultIndex: number, course: MataKuliah) => void;
-  onClearManualCourse: (resultIndex: number) => void;
-  onBulkSetUnmatched: (indices: number[]) => void;
-  originalTranscript?: TranscriptCourse[];
-  studentName?: string;
-  asalKampus?: string;
-}
-
-interface ResultsTableRow {
-  rowIndex: number;
-  sortBucket: number;
-  sortLabel: string;
-  targetKey: string;
-  duplicateGroupSize: number;
-  transcriptName: string;
-  grade: string;
-  transcriptSks: number | null;
-  targetName: string;
-  targetSks: number | null;
-  scorePercent: number | null;
-  statusText: string;
-  statusCls: string;
-  isDuplicate: boolean;
-  result: MatchResult;
-  manualSelected: boolean;
-}
 
 function getStatusBadge(method: string, hasMatch: boolean, score: number): { text: string; cls: string } {
   switch (method) {
@@ -85,6 +53,97 @@ function getSortPriorityMeta(method: string, hasMatch: boolean): { bucket: numbe
 
   // Hasil pencocokan otomatis berbasis aturan masuk kelompok rekomendasi.
   return { bucket: 2, label: "Rekomendasi" };
+}
+
+function openAutoResolveDialog(
+  duplicateGroupsCount: number,
+  setIsAutoResolveDialogOpen: (open: boolean) => void,
+) {
+  if (duplicateGroupsCount === 0) return;
+  setIsAutoResolveDialogOpen(true);
+}
+
+function confirmAutoResolveDuplicates(
+  duplicateTargetGroups: Array<{ indices: number[] }>,
+  results: MatchResult[],
+  onBulkSetUnmatched: ResultsTableProps["onBulkSetUnmatched"],
+  setIsAutoResolveDialogOpen: (open: boolean) => void,
+  setAutoResolveMessage: (message: string) => void,
+) {
+  setIsAutoResolveDialogOpen(false);
+
+  const indicesToSetUnmatched: number[] = [];
+
+  for (const group of duplicateTargetGroups) {
+    const sortedIndicesByScoreDesc = [...group.indices].sort((a, b) => {
+      const scoreDiff = results[b].score - results[a].score;
+      if (scoreDiff !== 0) return scoreDiff;
+
+      // Penentu seri yang konsisten: pertahankan indeks baris paling awal.
+      return a - b;
+    });
+    for (let i = 1; i < sortedIndicesByScoreDesc.length; i++) indicesToSetUnmatched.push(sortedIndicesByScoreDesc[i]);
+  }
+
+  if (indicesToSetUnmatched.length > 0) {
+    onBulkSetUnmatched(indicesToSetUnmatched);
+    setAutoResolveMessage("Penanganan otomatis selesai. Sistem menyisakan skor tertinggi per grup duplikat, tetapi hasil bisa tidak akurat. Harap cek kembali.");
+    return;
+  }
+
+  setAutoResolveMessage("Tidak ada baris yang perlu diubah oleh penanganan otomatis.");
+}
+
+function exportResultsToExcel(
+  duplicateGroupsCount: number,
+  gridRows: ResultsTableRow[],
+  originalTranscript: ResultsTableProps["originalTranscript"],
+  studentName: ResultsTableProps["studentName"],
+  asalKampus: ResultsTableProps["asalKampus"],
+  setExportBlockingMessage: (message: string) => void,
+) {
+  if (duplicateGroupsCount > 0) {
+    setExportBlockingMessage("Ekspor diblokir: masih ada duplikat mata kuliah tujuan. Rapikan dulu duplikatnya.");
+    return;
+  }
+
+  setExportBlockingMessage("");
+  const rows = gridRows.map((r, idx) => ({
+    No: idx + 1,
+    "Nama Mata Kuliah": r.transcriptName,
+    Nilai: r.grade,
+    "SKS Asal": r.transcriptSks ?? "-",
+    "Nama Mata Kuliah Tujuan": r.targetName === "—" ? "-" : r.targetName,
+    "SKS Tujuan": r.targetSks ?? "-",
+    Skor: r.scorePercent !== null ? `${r.scorePercent}%` : "-",
+    Status: r.statusText,
+    Metode: r.sortLabel,
+  }));
+
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb, ws, "Hasil Konversi");
+
+  // Sheet 2: data transkrip asal yang di-upload
+  if (originalTranscript && originalTranscript.length > 0) {
+    const headerRows: (string | number | undefined)[][] = [];
+    if (studentName) headerRows.push(["Nama Mahasiswa", studentName]);
+    if (asalKampus) headerRows.push(["Asal Kampus", asalKampus]);
+    if (headerRows.length > 0) headerRows.push([]);
+
+    headerRows.push(["No", "Kode", "Nama Mata Kuliah", "SKS", "Nilai"]);
+    const dataRows = originalTranscript.map((c, i) => [
+      i + 1,
+      c.kode ?? "-",
+      c.nama,
+      c.sks ?? "-",
+      c.nilai ?? "-",
+    ]);
+    const wsOri = XLSX.utils.aoa_to_sheet([...headerRows, ...dataRows]);
+    XLSX.utils.book_append_sheet(wb, wsOri, "Transkrip Asal");
+  }
+
+  XLSX.writeFile(wb, "hasil_konversi_unsia.xlsx");
 }
 
 export default function ResultsTable({
@@ -367,6 +426,7 @@ export default function ResultsTable({
           if (!d) return null;
           return <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${d.statusCls}`}>{d.statusText}</span>;
         },
+        sortable: false,
         pinned: "right",
       },
     ];
@@ -400,84 +460,9 @@ export default function ResultsTable({
     return undefined;
   }, []);
 
-  function handleOpenAutoResolveDialog() {
-    if (duplicateTargetGroups.length === 0) return;
-    setIsAutoResolveDialogOpen(true);
-  }
-
-  function handleConfirmAutoResolveDuplicates() {
-    setIsAutoResolveDialogOpen(false);
-
-    const indicesToSetUnmatched: number[] = [];
-
-    for (const group of duplicateTargetGroups) {
-      const sortedIndicesByScoreDesc = [...group.indices].sort((a, b) => {
-        const scoreDiff = results[b].score - results[a].score;
-        if (scoreDiff !== 0) return scoreDiff;
-
-        // Penentu seri yang konsisten: pertahankan indeks baris paling awal.
-        return a - b;
-      });
-      for (let i = 1; i < sortedIndicesByScoreDesc.length; i++) indicesToSetUnmatched.push(sortedIndicesByScoreDesc[i]);
-    }
-
-    if (indicesToSetUnmatched.length > 0) {
-      onBulkSetUnmatched(indicesToSetUnmatched);
-      setAutoResolveMessage("Penanganan otomatis selesai. Sistem menyisakan skor tertinggi per grup duplikat, tetapi hasil bisa tidak akurat. Harap cek kembali.");
-      return;
-    }
-
-    setAutoResolveMessage("Tidak ada baris yang perlu diubah oleh penanganan otomatis.");
-  }
-
   const duplicateRowsCount = useMemo(() => {
     return duplicateTargetGroups.reduce((total, group) => total + group.indices.length, 0);
   }, [duplicateTargetGroups]);
-
-  function handleExportToExcel() {
-    if (duplicateTargetGroups.length > 0) {
-      setExportBlockingMessage("Ekspor diblokir: masih ada duplikat mata kuliah tujuan. Rapikan dulu duplikatnya.");
-      return;
-    }
-
-    setExportBlockingMessage("");
-    const rows = gridRows.map((r, idx) => ({
-      No: idx + 1,
-      "Nama Mata Kuliah": r.transcriptName,
-      Nilai: r.grade,
-      "SKS Asal": r.transcriptSks ?? "-",
-      "Nama Mata Kuliah Tujuan": r.targetName === "—" ? "-" : r.targetName,
-      "SKS Tujuan": r.targetSks ?? "-",
-      Skor: r.scorePercent !== null ? `${r.scorePercent}%` : "-",
-      Status: r.statusText,
-      Metode: r.sortLabel,
-    }));
-
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(rows);
-    XLSX.utils.book_append_sheet(wb, ws, "Hasil Konversi");
-
-    // Sheet 2: data transkrip asal yang di-upload
-    if (originalTranscript && originalTranscript.length > 0) {
-      const headerRows: (string | number | undefined)[][] = [];
-      if (studentName) headerRows.push(["Nama Mahasiswa", studentName]);
-      if (asalKampus) headerRows.push(["Asal Kampus", asalKampus]);
-      if (headerRows.length > 0) headerRows.push([]);
-
-      headerRows.push(["No", "Kode", "Nama Mata Kuliah", "SKS", "Nilai"]);
-      const dataRows = originalTranscript.map((c, i) => [
-        i + 1,
-        c.kode ?? "-",
-        c.nama,
-        c.sks ?? "-",
-        c.nilai ?? "-",
-      ]);
-      const wsOri = XLSX.utils.aoa_to_sheet([...headerRows, ...dataRows]);
-      XLSX.utils.book_append_sheet(wb, wsOri, "Transkrip Asal");
-    }
-
-    XLSX.writeFile(wb, "hasil_konversi_unsia.xlsx");
-  }
 
   if (results.length === 0) {
     return (
@@ -498,13 +483,24 @@ export default function ResultsTable({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-semibold text-slate-800">Hasil Konversi Mata Kuliah</h2>
           <div className="flex flex-wrap items-center gap-2">
-            <button type="button" onClick={handleExportToExcel} className="rounded-lg border border-emerald-300 bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 hover:bg-emerald-200">
+            <button
+              type="button"
+              onClick={() => exportResultsToExcel(
+                duplicateTargetGroups.length,
+                gridRows,
+                originalTranscript,
+                studentName,
+                asalKampus,
+                setExportBlockingMessage,
+              )}
+              className="rounded-lg border border-emerald-300 bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 hover:bg-emerald-200"
+            >
               Ekspor Excel
             </button>
             {duplicateTargetGroups.length > 0 && (
               <button
                 type="button"
-                onClick={handleOpenAutoResolveDialog}
+                onClick={() => openAutoResolveDialog(duplicateTargetGroups.length, setIsAutoResolveDialogOpen)}
                 className="rounded-lg border border-amber-300 bg-amber-100 px-3 py-1.5 text-xs font-semibold text-amber-800 hover:bg-amber-200"
               >
                 Atur Otomatis Duplikat
@@ -638,7 +634,13 @@ export default function ResultsTable({
                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:gap-3">
                   <button
                     type="button"
-                    onClick={handleConfirmAutoResolveDuplicates}
+                    onClick={() => confirmAutoResolveDuplicates(
+                      duplicateTargetGroups,
+                      results,
+                      onBulkSetUnmatched,
+                      setIsAutoResolveDialogOpen,
+                      setAutoResolveMessage,
+                    )}
                     className="inline-flex w-full justify-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500 sm:w-auto"
                   >
                     Lanjutkan Penanganan Otomatis

@@ -1,22 +1,84 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from 'react'
 import type {
   Curriculum,
   MataKuliah,
   MatchResult,
-  ParseResult,
   TranscriptCourse,
 } from '../types'
 import ProdiSelector from '../components/ProdiSelector'
 import FileUploader from '../components/FileUploader'
 import SummaryCards from '../components/SummaryCards'
 import ResultsTable from '../components/ResultsTable'
+import { buildEffectiveResults } from '../utils/effectiveResults'
 import { calculateStudyDuration } from '../utils/studyDuration'
 import { flattenMK } from '../utils/matching'
 import {
   isSemanticModelReady,
   matchTranscriptSemantic,
-  type SemanticProgress,
 } from '../utils/semanticMatching'
+import type { SemanticProgress } from '../types/semantic'
+import {
+  applyParsedFile,
+  bulkSetUnmatchedSelections,
+  clearManualCourseSelection,
+  resetUploaderAndSelections,
+  setManualCourseSelection,
+  setRecommendationSelection,
+} from '../utils/selectionHandlers'
+
+async function runSemanticMatchProcess(
+  transcript: TranscriptCourse[],
+  curr: Curriculum,
+  setIsProcessing: (value: boolean) => void,
+  setErrorMessage: (message: string) => void,
+  setSemanticProgress: (progress: SemanticProgress | null | ((prev: SemanticProgress | null) => SemanticProgress | null)) => void,
+  setModelReady: (value: boolean) => void,
+  setResults: (next: MatchResult[]) => void,
+  setManualSelections: (next: Record<number, number>) => void,
+  setCustomSelections: (next: Record<number, MataKuliah>) => void,
+  isCancelled: () => boolean,
+) {
+  try {
+    setIsProcessing(true)
+    setErrorMessage('')
+    setSemanticProgress({
+      stage: 'loading_model',
+      processed: 0,
+      total: 1,
+      percent: 0,
+      message: 'Menyiapkan mesin semantik...',
+    })
+
+    const next = await matchTranscriptSemantic(transcript, curr, {
+      onProgress: (progress) => {
+        if (!isCancelled()) setSemanticProgress(progress)
+        if (!isCancelled() && progress.stage === 'loading_model' && progress.percent >= 100) {
+          setModelReady(true)
+        }
+      },
+    })
+
+    if (!isCancelled()) {
+      setResults(next)
+      setManualSelections({})
+      setCustomSelections({})
+    }
+  } catch (err) {
+    if (!isCancelled()) {
+      console.error(err)
+      setResults([])
+      setErrorMessage('Gagal memuat model semantik. Coba muat ulang halaman.')
+    }
+  } finally {
+    if (!isCancelled()) {
+      setIsProcessing(false)
+      setTimeout(() => {
+        setSemanticProgress((prev) => (prev?.stage === 'done' ? null : prev))
+      }, 1200)
+    }
+  }
+}
 
 export default function VersionTwoPage() {
   const [curricula, setCurricula] = useState<Record<string, Curriculum>>({})
@@ -64,159 +126,25 @@ export default function VersionTwoPage() {
 
     let cancelled = false
 
-    async function runSemanticMatch() {
-      try {
-        setIsProcessing(true)
-        setErrorMessage('')
-        setSemanticProgress({
-          stage: 'loading_model',
-          processed: 0,
-          total: 1,
-          percent: 0,
-          message: 'Menyiapkan mesin semantik...',
-        })
-
-        const next = await matchTranscriptSemantic(transcript, curr, {
-          onProgress: (progress) => {
-            if (!cancelled) setSemanticProgress(progress)
-            if (!cancelled && progress.stage === 'loading_model' && progress.percent >= 100) {
-              setModelReady(true)
-            }
-          },
-        })
-
-        if (!cancelled) {
-          setResults(next)
-          setManualSelections({})
-          setCustomSelections({})
-        }
-      } catch (err) {
-        if (!cancelled) {
-          console.error(err)
-          setResults([])
-          setErrorMessage('Gagal memuat model semantik. Coba muat ulang halaman.')
-        }
-      } finally {
-        if (!cancelled) {
-          setIsProcessing(false)
-          setTimeout(() => {
-            setSemanticProgress((prev) => (prev?.stage === 'done' ? null : prev))
-          }, 1200)
-        }
-      }
-    }
-
-    runSemanticMatch()
+    void runSemanticMatchProcess(
+      transcript,
+      curr,
+      setIsProcessing,
+      setErrorMessage,
+      setSemanticProgress,
+      setModelReady,
+      setResults,
+      setManualSelections,
+      setCustomSelections,
+      () => cancelled,
+    )
 
     return () => {
       cancelled = true
     }
   }, [transcript, selectedKey, curricula])
 
-  function handleProdiChange(key: string) {
-    setSelectedKey(key)
-    setResults([])
-    setTranscript([])
-    setFileName('')
-    setStudentName('')
-    setAsalKampus('')
-    setManualSelections({})
-    setCustomSelections({})
-    setIsProcessing(false)
-    setErrorMessage('')
-    setSemanticProgress(null)
-    uploaderRef.current?.reset()
-  }
-
-  function handleFileParsed(result: ParseResult, name: string) {
-    setTranscript(result.courses)
-    setFileName(name)
-    setStudentName(result.studentName ?? '')
-    setAsalKampus(result.asalKampus ?? '')
-    setManualSelections({})
-    setCustomSelections({})
-    setErrorMessage('')
-    setSemanticProgress(null)
-  }
-
-  function handleRecommendationSelect(resultIndex: number, recommendationIndex: number) {
-    setManualSelections((prev) => ({
-      ...prev,
-      [resultIndex]: recommendationIndex,
-    }))
-    setCustomSelections((prev) => {
-      const next = { ...prev }
-      delete next[resultIndex]
-      return next
-    })
-  }
-
-  function handleManualCourseSelect(resultIndex: number, course: MataKuliah) {
-    setCustomSelections((prev) => ({
-      ...prev,
-      [resultIndex]: course,
-    }))
-    setManualSelections((prev) => {
-      const next = { ...prev }
-      delete next[resultIndex]
-      return next
-    })
-  }
-
-  function handleClearManualCourse(resultIndex: number) {
-    setCustomSelections((prev) => {
-      const next = { ...prev }
-      delete next[resultIndex]
-      return next
-    })
-  }
-
-  function handleBulkSetUnmatched(indices: number[]) {
-    setManualSelections((prev) => {
-      const next = { ...prev }
-      for (const idx of indices) next[idx] = -1
-      return next
-    })
-    setCustomSelections((prev) => {
-      const next = { ...prev }
-      for (const idx of indices) delete next[idx]
-      return next
-    })
-  }
-
-  const effectiveResults = results.map((r, idx) => {
-    const manualCourse = customSelections[idx]
-    if (manualCourse) {
-      return {
-        ...r,
-        match: manualCourse,
-        score: 0,
-        method: 'manual_custom',
-      }
-    }
-
-    const selectedRecIdx = manualSelections[idx]
-    if (selectedRecIdx === undefined) return r
-
-    if (selectedRecIdx === -1) {
-      return {
-        ...r,
-        match: undefined,
-        score: 0,
-        method: 'manual_unmatched',
-      }
-    }
-
-    const selectedRec = r.recommendations?.[selectedRecIdx]
-    if (!selectedRec) return r
-
-    return {
-      ...r,
-      match: selectedRec.match,
-      score: selectedRec.score,
-      method: 'manual',
-    }
-  })
+  const effectiveResults = buildEffectiveResults(results, manualSelections, customSelections)
 
   const matchedCount = effectiveResults.filter((r) => r.match).length
   const unmatchedCount = effectiveResults.length - matchedCount
@@ -242,10 +170,39 @@ export default function VersionTwoPage() {
         <ProdiSelector
           curricula={curricula}
           selectedKey={selectedKey}
-          onChange={handleProdiChange}
+          onChange={(key) => {
+            resetUploaderAndSelections(
+              setSelectedKey,
+              key,
+              setResults,
+              setTranscript,
+              setFileName,
+              setStudentName,
+              setAsalKampus,
+              setManualSelections,
+              setCustomSelections,
+              uploaderRef,
+            )
+            setIsProcessing(false)
+            setErrorMessage('')
+            setSemanticProgress(null)
+          }}
         />
         <FileUploader
-          onParsed={handleFileParsed}
+          onParsed={(parsed, name) => {
+            applyParsedFile(
+              parsed,
+              name,
+              setTranscript,
+              setFileName,
+              setStudentName,
+              setAsalKampus,
+              setManualSelections,
+              setCustomSelections,
+            )
+            setErrorMessage('')
+            setSemanticProgress(null)
+          }}
           fileName={fileName}
           courseCount={transcript.length}
           studentName={studentName}
@@ -308,10 +265,20 @@ export default function VersionTwoPage() {
         selectedRecommendations={manualSelections}
         customSelections={customSelections}
         availableCourses={allTargetCourses}
-        onSelectRecommendation={handleRecommendationSelect}
-        onSelectManualCourse={handleManualCourseSelect}
-        onClearManualCourse={handleClearManualCourse}
-        onBulkSetUnmatched={handleBulkSetUnmatched}
+        onSelectRecommendation={(resultIndex, recommendationIndex) => setRecommendationSelection(
+          resultIndex,
+          recommendationIndex,
+          setManualSelections,
+          setCustomSelections,
+        )}
+        onSelectManualCourse={(resultIndex, course) => setManualCourseSelection(
+          resultIndex,
+          course,
+          setManualSelections,
+          setCustomSelections,
+        )}
+        onClearManualCourse={(resultIndex) => clearManualCourseSelection(resultIndex, setCustomSelections)}
+        onBulkSetUnmatched={(indices) => bulkSetUnmatchedSelections(indices, setManualSelections, setCustomSelections)}
         originalTranscript={transcript}
         studentName={studentName}
         asalKampus={asalKampus}
