@@ -312,6 +312,9 @@ export default function VersionTwoPage() {
         onSelectManualCourse={handleManualCourseSelect}
         onClearManualCourse={handleClearManualCourse}
         onBulkSetUnmatched={handleBulkSetUnmatched}
+        originalTranscript={transcript}
+        studentName={studentName}
+        asalKampus={asalKampus}
       />
     </div>
   )

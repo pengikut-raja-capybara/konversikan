@@ -35,7 +35,7 @@ export default function FileUploader({
     } catch (err) {
       console.error(err)
       alert(
-        'Format file tidak valid. Harap unggah file JSON, CSV, XLS, atau XLSX ' +
+        'Format file tidak valid. Harap unggah file Excel (XLS atau XLSX) ' +
           'dengan kolom: kode / nama / sks / nilai',
       )
     } finally {
@@ -61,12 +61,12 @@ export default function FileUploader({
       <input
         ref={inputRef}
         type="file"
-        accept=".json,.csv,.xls,.xlsx"
+        accept=".xls,.xlsx"
         onChange={handleChange}
         className="block w-full cursor-pointer rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-indigo-700"
       />
       <p className="mt-2 text-xs text-slate-500">
-        Format berkas: <span className="font-medium">JSON, CSV, XLS, XLSX</span> — kolom:{' '}
+        Format berkas: <span className="font-medium">XLS, XLSX</span> — kolom:{' '}
         <code className="rounded bg-slate-100 text-black px-1">nama</code>,{' '}
         <code className="rounded bg-slate-100 text-black px-1">sks</code>,{' '}
         <code className="rounded bg-slate-100 text-black px-1">nilai</code>

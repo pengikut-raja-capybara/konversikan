@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, AllCommunityModule, type ColDef, type RowClassParams, type ValueFormatterParams, themeBalham } from "ag-grid-community";
-import type { MataKuliah, MatchResult } from "../types";
+import type { MataKuliah, MatchResult, TranscriptCourse } from "../types";
 import * as XLSX from "xlsx";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -16,6 +16,9 @@ interface ResultsTableProps {
   onSelectManualCourse: (resultIndex: number, course: MataKuliah) => void;
   onClearManualCourse: (resultIndex: number) => void;
   onBulkSetUnmatched: (indices: number[]) => void;
+  originalTranscript?: TranscriptCourse[];
+  studentName?: string;
+  asalKampus?: string;
 }
 
 interface ResultsTableRow {
@@ -93,6 +96,9 @@ export default function ResultsTable({
   onSelectManualCourse,
   onClearManualCourse,
   onBulkSetUnmatched,
+  originalTranscript,
+  studentName,
+  asalKampus,
 }: ResultsTableProps) {
   const [activeManualSelectionRow, setActiveManualSelectionRow] = useState<number | null>(null);
   const [courseSearchKeyword, setCourseSearchKeyword] = useState("");
@@ -316,7 +322,7 @@ export default function ResultsTable({
       },
       {
         headerName: "Aksi",
-        width: 100,
+        width: 105,
         sortable: false,
         cellRenderer: (p: { data?: ResultsTableRow }) => {
           const d = p.data;
@@ -355,7 +361,7 @@ export default function ResultsTable({
       },
       {
         headerName: "Status",
-        width: 75,
+        width: 80,
         cellRenderer: (p: { data?: ResultsTableRow }) => {
           const d = p.data;
           if (!d) return null;
@@ -450,6 +456,26 @@ export default function ResultsTable({
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(rows);
     XLSX.utils.book_append_sheet(wb, ws, "Hasil Konversi");
+
+    // Sheet 2: data transkrip asal yang di-upload
+    if (originalTranscript && originalTranscript.length > 0) {
+      const headerRows: (string | number | undefined)[][] = [];
+      if (studentName) headerRows.push(["Nama Mahasiswa", studentName]);
+      if (asalKampus) headerRows.push(["Asal Kampus", asalKampus]);
+      if (headerRows.length > 0) headerRows.push([]);
+
+      headerRows.push(["No", "Kode", "Nama Mata Kuliah", "SKS", "Nilai"]);
+      const dataRows = originalTranscript.map((c, i) => [
+        i + 1,
+        c.kode ?? "-",
+        c.nama,
+        c.sks ?? "-",
+        c.nilai ?? "-",
+      ]);
+      const wsOri = XLSX.utils.aoa_to_sheet([...headerRows, ...dataRows]);
+      XLSX.utils.book_append_sheet(wb, wsOri, "Transkrip Asal");
+    }
+
     XLSX.writeFile(wb, "hasil_konversi_unsia.xlsx");
   }
 
