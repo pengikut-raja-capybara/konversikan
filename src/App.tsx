@@ -7,6 +7,7 @@ function App() {
   const [theme, setTheme] = useState<"day" | "night">("day");
   const [isCreditModalOpen, setIsCreditModalOpen] = useState(false);
   const isNightMode = theme === "night";
+  const unsiaLogoSrc = `${import.meta.env.BASE_URL}UNSIA-LOGO.png`;
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
@@ -29,7 +30,7 @@ function App() {
           <div className="relative flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
             <div className="flex items-start gap-4">
               <div className="hidden h-16 w-16 items-center justify-center rounded-2xl border border-[#C7D9EA] bg-white/90 shadow-md sm:flex">
-                <img src="/UNSIA-LOGO.png" alt="Logo UNSIA" className="h-12 w-12 object-contain" />
+                <img src={unsiaLogoSrc} alt="Logo UNSIA" className="h-12 w-12 object-contain" />
               </div>
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#C6D8EA] bg-[#EFF5FC]/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#124D80]">

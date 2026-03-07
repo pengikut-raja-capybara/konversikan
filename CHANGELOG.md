@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.2] - 2026-03-07
+
+### Fixed
+- Logo UNSIA now uses `import.meta.env.BASE_URL` in `src/App.tsx` so it loads correctly on GitHub Pages subpath deployment.
+
 ## [0.0.1] - 2026-03-07
 
 ### Added
