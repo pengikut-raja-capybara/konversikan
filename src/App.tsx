@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import VersionOnePage from "./pages/VersionOnePage";
 import VersionTwoPage from "./pages/VersionTwoPage";
 import VersionThreePage from "./pages/VersionThreePage";
@@ -15,32 +16,36 @@ function App() {
   }, [theme]);
 
   return (
-    <div className="app-shell relative min-h-screen overflow-hidden px-4 py-8 md:px-6 md:py-10">
+    <div className="app-shell relative min-h-screen overflow-hidden p-4">
       <span className="float-orb left-[-60px] top-[-30px] h-44 w-44 bg-[#A7C6E8]" />
       <span className="float-orb bottom-[-70px] right-[-40px] h-52 w-52 bg-[#F5D54A]/70" />
       <span className="float-orb left-[40%] top-[10%] h-32 w-32 bg-[#9BC3E8]/60" />
 
       <div className="mx-auto w-full max-w-[1280px]">
         <div
-          className={`fade-up relative mb-7 overflow-hidden rounded-3xl border px-6 py-7 backdrop-blur md:px-9 md:py-8 ${
+          className={`fade-up relative mb-5 overflow-hidden rounded-3xl border p-4 backdrop-blur ${
             isNightMode ? "border-[#3E6A93]/45 bg-slate-900/75 shadow-[0_14px_45px_rgba(5,10,30,0.55)]" : "border-[#C3D8EC] bg-white/80 shadow-[0_14px_45px_rgba(16,74,124,0.14)]"
           }`}
         >
           <div className="pointer-events-none absolute inset-x-6 top-0 h-20 bg-gradient-to-r from-[#2A6A9B]/30 via-[#8FB9E2]/20 to-[#F4D112]/30 blur-2xl" />
 
-          <div className="relative flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+          <div className="relative flex flex-col gap-6 lg:flex-row lg:items-stretch lg:justify-between">
             <div className="flex items-start gap-4">
-              <div className="hidden h-16 w-16 items-center justify-center rounded-2xl border border-[#C7D9EA] bg-white/90 shadow-md sm:flex">
-                <img src={unsiaLogoSrc} alt="Logo UNSIA" className="h-12 w-12 object-contain" />
-              </div>
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#C6D8EA] bg-[#EFF5FC]/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#124D80]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#E6BE00]" />
-                  Suite Konversi SKS UNSIA [UNOFFICIAL]
+                <div className="flex flex-row gap-4 items-center">
+                  <div className="hidden h-16 w-16 items-center justify-center rounded-2xl border border-[#C7D9EA] bg-white/90 shadow-md sm:flex">
+                    <img src={unsiaLogoSrc} alt="Logo UNSIA" className="h-16 w-16 object-contain" />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-[#C6D8EA] bg-[#EFF5FC]/90 px-3 py-1 text-[.5em] font-semibold uppercase tracking-[0.18em] text-[#124D80]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#E6BE00]" />
+                      Suite Konversi SKS UNSIA [UNOFFICIAL]
+                    </div>
+                    <h1 className="brand-heading mt-1 font-extrabold text-[var(--brand-ink)] md:text-4xl">konversikan</h1>
+                  </div>
                 </div>
-                <h1 className="brand-heading mt-1 text-4xl font-extrabold text-[var(--brand-ink)] md:text-5xl">konversikan</h1>
-                <p className="mt-2 max-w-2xl text-sm text-slate-600 md:text-base">
-                  Platform simulasi konversi SKS mahasiswa pindahan Universitas Siber Asia, dengan dua mesin penilaian: berbasis aturan dan AI semantik.
+                <p className="mt-2 max-w-2xl text-sm text-slate-600">
+                  Platform simulasi konversi SKS mahasiswa pindahan Universitas Siber Asia, dengan tiga mesin penilaian: berbasis aturan, AI semantik lokal, dan AI semantik Ollama.
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2.5 text-xs font-semibold">
@@ -50,76 +55,77 @@ function App() {
                 </div>
               </div>
             </div>
+            <div className="flex w-full flex-col justify-between gap-3 self-stretch lg:w-auto lg:items-end">
+                <button
+                  type="button"
+                  onClick={() => setTheme((prev) => (prev === "day" ? "night" : "day"))}
+                  className={`flex items-center justify-between rounded-xl border px-2.5 py-1.5 text-left text-xs font-semibold transition ${
+                    isNightMode ? "border-[#3E6A93]/45 bg-slate-900/50 text-slate-100 hover:bg-slate-800/70" : "border-[#BCD1E8] bg-white text-[#114A7B] hover:bg-[#F4F8FD]"
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span className={`inline-flex h-6 w-6 items-center justify-center rounded-lg ${isNightMode ? "bg-slate-800 text-yellow-300" : "bg-[#EEF5FD] text-[#114A7B]"}`}>
+                      {isNightMode ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+                    </span>
+                    {isNightMode ? "Mode Terang" : "Mode Gelap"}
+                  </span>
+                   </button>
 
-            <div className="glass-panel fade-up-delay-1 w-full rounded-2xl px-4 py-3 text-xs text-slate-600 sm:max-w-sm lg:w-[360px]">
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-semibold text-slate-700">Mesin aktif</span>
-                <span className="rounded-full bg-[#E9F2FC] px-2.5 py-1 font-semibold text-[#134E81]">
-                  {activeVersion === "v1" && "Mesin Berbasis Aturan"}
-                  {activeVersion === "v2" && "Mesin AI Semantik Lokal"}
-                  {activeVersion === "v3" && "Mesin AI Semantik Ollama"}
-                </span>
-              </div>
-
-              <div className={`mb-3 rounded-xl border px-3 py-2 ${isNightMode ? "border-[#3E6A93]/45 bg-slate-900/50" : "border-[#CEDDEC] bg-white/80"}`}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Tema tampilan</p>
-                <p className="mt-1 text-xs text-slate-600">Atur kontras layar agar nyaman untuk siang atau malam.</p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setTheme((prev) => (prev === "day" ? "night" : "day"))}
-                className={`w-full rounded-xl border px-3 py-2 text-left text-xs font-semibold transition ${
-                  isNightMode ? "border-[#3E6A93]/45 bg-slate-900/50 text-slate-100 hover:bg-slate-800/70" : "border-[#BCD1E8] bg-white text-[#114A7B] hover:bg-[#F4F8FD]"
+              <div className="w-full sm:max-w-[480px] lg:w-auto">
+                <p className={`mb-1 px-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${isNightMode ? "text-slate-300" : "text-slate-500"}`}>
+                  Pilih Versi
+                </p>
+              <div
+                className={`fade-up-delay-2 flex flex-wrap justify-start gap-2 overflow-x-auto rounded-2xl border p-2 backdrop-blur ${
+                  isNightMode ? "border-[#3E6A93]/45 bg-slate-900/60 shadow-[0_8px_30px_rgba(2,6,23,0.45)]" : "border-[#C3D8EC] bg-white/70 shadow-sm"
                 }`}
               >
-                {isNightMode ? "Kembali ke Mode Terang" : "Aktifkan Mode Gelap"}
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveVersion("v1")}
+                  className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition whitespace-nowrap ${
+                    activeVersion === "v1"
+                      ? "border-[#1F6296] bg-gradient-to-r from-[#104A7C] to-[#1F6296] text-white shadow-lg shadow-[#9ABDE0]/60"
+                      : "border-[#C3D8EC] bg-white text-[#114A7B] hover:bg-[#F1F7FD]"
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-current/80" />
+                    Berbasis Aturan
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveVersion("v2")}
+                  className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition whitespace-nowrap ${
+                    activeVersion === "v2"
+                      ? "border-[#D4AB00] bg-gradient-to-r from-[#D4AB00] to-[#F4D112] text-[#1F3A57] shadow-lg shadow-[#EFD97A]/60"
+                      : "border-[#E8D59B] bg-white text-[#8C6A00] hover:bg-[#FFF9E2]"
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-current/80" />
+                    AI Semantik
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveVersion("v3")}
+                  className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition whitespace-nowrap ${
+                    activeVersion === "v3"
+                      ? "border-[#E17800] bg-gradient-to-r from-[#E17800] to-[#F0A000] text-white shadow-lg shadow-[#F0C98A]/60"
+                      : "border-[#E8C49B] bg-white text-[#8A5200] hover:bg-[#FFF1E1]"
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-current/80" />
+                    Ollama API
+                  </span>
+                </button>
+              </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div
-          className={`fade-up-delay-2 mb-6 flex flex-wrap justify-center gap-2 rounded-2xl p-2 backdrop-blur ${
-            isNightMode ? "bg-slate-900/60 shadow-[0_8px_30px_rgba(2,6,23,0.45)]" : "bg-white/70 shadow-sm"
-          }`}
-        >
-          <button
-            type="button"
-            onClick={() => setActiveVersion("v1")}
-            className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-              activeVersion === "v1" ? "bg-gradient-to-r from-[#104A7C] to-[#1F6296] text-white shadow-lg shadow-[#9ABDE0]/60" : "bg-white text-[#114A7B] hover:bg-[#F1F7FD]"
-            }`}
-          >
-            <span className="inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-current/80" />
-              Versi 1 • Berbasis Aturan
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveVersion("v2")}
-            className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-              activeVersion === "v2" ? "bg-gradient-to-r from-[#D4AB00] to-[#F4D112] text-[#1F3A57] shadow-lg shadow-[#EFD97A]/60" : "bg-white text-[#8C6A00] hover:bg-[#FFF9E2]"
-            }`}
-          >
-            <span className="inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-current/80" />
-              Versi 2 • AI Semantik
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveVersion("v3")}
-            className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-              activeVersion === "v3" ? "bg-gradient-to-r from-[#E17800] to-[#F0A000] text-white shadow-lg shadow-[#F0C98A]/60" : "bg-white text-[#8A5200] hover:bg-[#FFF1E1]"
-            }`}
-          >
-            <span className="inline-flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-current/80" />
-              Versi 3 • Ollama API
-            </span>
-          </button>
         </div>
 
         <div className="fade-up-delay-3">
@@ -154,7 +160,7 @@ function App() {
                 </h3>
               </div>
 
-              <div className="mt-4 space-y-3 text-sm leading-relaxed">
+              <div className="mt-2 space-y-3 text-sm leading-relaxed">
                 <p>
                   Aplikasi ini dikembangkan oleh mahasiswa Universitas Siber Asia (UNSIA) sebagai sarana pembelajaran dan alat bantu untuk mensimulasikan proses konversi SKS bagi mahasiswa pindahan.
                 </p>

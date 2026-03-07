@@ -59,7 +59,6 @@ function getSortPriorityMeta(method: string, hasMatch: boolean): { bucket: numbe
 function getScoreRowBackground(row?: ResultsTableRow): string | undefined {
   if (!row) return undefined;
 
-  if (row.isDuplicate) return "#fef3c7";
   if (!row.result.match) return "#fee2e2";
 
   const score = row.scorePercent;
@@ -128,9 +127,7 @@ function exportResultsToExcel(
     "SKS Asal": r.transcriptSks ?? "-",
     "Nama Mata Kuliah Tujuan": r.targetName === "—" ? "-" : r.targetName,
     "SKS Tujuan": r.targetSks ?? "-",
-    Skor: r.scorePercent !== null ? `${r.scorePercent}%` : "-",
-    Status: r.statusText,
-    Metode: r.sortLabel,
+    Skor: r.scoreDetail != null ? r.scoreDetail : "-",
   }));
 
   const wb = XLSX.utils.book_new();
@@ -282,6 +279,7 @@ export default function ResultsTable({
         targetName: r.match?.nama ?? "—",
         targetSks: r.match?.sks ?? null,
         scorePercent: r.score > 0 ? Math.max(0, Math.min(100, Math.round(r.score * 100))) : null,
+        scoreDetail: r.score > 0 ? `${(r.score * 100).toFixed(3)}%` : "-",
         statusText: label.text,
         statusCls: label.cls,
         isDuplicate: duplicateResultRowSet.has(i),
@@ -291,15 +289,27 @@ export default function ResultsTable({
     });
 
     rows.sort((a, b) => {
-      // Prioritas utama: skor rendah tampil dulu agar kasus meragukan cepat terlihat.
-      const scoreDiff = (a.scorePercent ?? 0) - (b.scorePercent ?? 0);
-      if (scoreDiff !== 0) return scoreDiff;
-
-      if (a.sortBucket !== b.sortBucket) return a.sortBucket - b.sortBucket;
-
+      // Prioritas utama: duplikat baris tampil dulu.
       const aDup = a.duplicateGroupSize > 1;
       const bDup = b.duplicateGroupSize > 1;
       if (aDup !== bDup) return aDup ? -1 : 1;
+
+      // Jika keduanya duplikat, pertama kelompokkan menurut nama mata kuliah tujuan;
+      // dalam grup yang sama, skor tinggi tampil lebih dulu.
+      if (aDup && bDup && a.targetKey !== b.targetKey) {
+        return a.targetName.localeCompare(b.targetName, "id");
+      }
+      if (aDup && bDup) {
+        const descScore = (b.scorePercent ?? 0) - (a.scorePercent ?? 0);
+        if (descScore !== 0) return descScore;
+      }
+
+      // Setelah semua duplikat dan target-grouping ditangani, urutkan
+      // sisanya (dan tie case) berdasarkan skor tertinggi dulu.
+      const scoreDiff = (b.scorePercent ?? 0) - (a.scorePercent ?? 0);
+      if (scoreDiff !== 0) return scoreDiff;
+
+      if (a.sortBucket !== b.sortBucket) return a.sortBucket - b.sortBucket;
 
       if (a.targetKey !== b.targetKey) {
         if (a.result.match && b.result.match) {
@@ -376,12 +386,12 @@ export default function ResultsTable({
                 if (e.target.value === "") return;
                 onSelectRecommendation(d.rowIndex, Number(e.target.value));
               }}
-              className="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700"
+              className="w-full rounded-md border border-slate-300 bg-white p-1 text-xs text-slate-700"
             >
               <option value="">Pilih rekomendasi...</option>
               {(d.result.recommendations ?? []).map((rec, idx) => (
                 <option key={`${rec.match.kode ?? idx}-${rec.match.nama}`} value={String(idx)}>
-                  {rec.match.nama} ({Math.round(rec.score * 100)}%)
+                  {rec.match.nama} ({(rec.score * 100).toFixed(3)}%)
                 </option>
               ))}
             </select>
@@ -430,9 +440,9 @@ export default function ResultsTable({
       },
       {
         headerName: "Skor",
-        field: "scorePercent",
-        width: 50,
-        valueFormatter: (p: ValueFormatterParams<ResultsTableRow, number | null>) => (p.value !== null ? `${p.value}%` : "-"),
+        field: "scoreDetail",
+        width: 75,
+        valueGetter: (p) => p.data?.scoreDetail ?? "-",
         pinned: "right",
       },
       {
@@ -460,8 +470,14 @@ export default function ResultsTable({
 
   const getGridRowStyle = useCallback((p: RowClassParams<ResultsTableRow>) => {
     const backgroundColor = getScoreRowBackground(p.data);
-    if (!backgroundColor) return undefined;
-    return { backgroundColor };
+    const style: Record<string, string> = {};
+
+    if (backgroundColor) style.backgroundColor = backgroundColor;
+
+    // Duplikat ditandai dengan border merah agar warna latar tetap merepresentasikan skor.
+    if (p.data?.isDuplicate) style.boxShadow = "inset 0 0 0 2px #ef4444";
+
+    return Object.keys(style).length > 0 ? style : undefined;
   }, []);
 
   const duplicateRowsCount = useMemo(() => {
@@ -510,7 +526,7 @@ export default function ResultsTable({
       {duplicateTargetGroups.length > 0 && (
         <div className="border-b border-amber-200 bg-amber-50 px-6 py-3 text-xs text-amber-900">
           <p className="font-semibold">Ditemukan {duplicateTargetGroups.length} hasil konversi duplikat (1 mata kuliah tujuan dipakai lebih dari 1 baris).</p>
-          <p className="mt-1">Baris berwarna kuning menandakan duplikat. Klik "Atur Otomatis Duplikat" untuk mempertahankan skor tertinggi dan menandai sisanya tidak setara.</p>
+          <p className="mt-1">Baris dengan border merah menandakan duplikat. Klik "Atur Otomatis Duplikat" untuk mempertahankan skor tertinggi dan menandai sisanya tidak setara.</p>
         </div>
       )}
 
@@ -518,7 +534,7 @@ export default function ResultsTable({
 
       {autoResolveMessage && <div className="border-b border-amber-200 bg-amber-50 px-6 py-2.5 text-xs font-medium text-amber-800">{autoResolveMessage}</div>}
 
-      <div className="p-4 h-[400px] md:h-[500px]">
+      {/* <div className="h-[460px] p-3 md:h-[560px]"> */}
         <AgGridReact<ResultsTableRow>
           theme={themeBalham}
           rowData={gridRows}
@@ -529,8 +545,10 @@ export default function ResultsTable({
           animateRows
           getRowStyle={getGridRowStyle}
           suppressCellFocus
+          suppressScrollOnNewData
+          domLayout="autoHeight"
         />
-      </div>
+      {/* </div> */}
 
       {activeManualSelectionRow !== null &&
         typeof document !== "undefined" &&

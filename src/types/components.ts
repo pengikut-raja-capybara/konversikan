@@ -55,6 +55,7 @@ export interface ResultsTableRow {
   targetName: string
   targetSks: number | null
   scorePercent: number | null
+  scoreDetail: string
   statusText: string
   statusCls: string
   isDuplicate: boolean

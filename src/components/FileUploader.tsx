@@ -27,16 +27,16 @@ export default function FileUploader({ onParsed, fileName, courseCount, studentN
   }));
 
   return (
-    <div className="rounded-2xl border border-emerald-100 bg-[var(--surface)] p-6 shadow-[0_8px_28px_rgba(5,150,105,0.08)]">
+    <div className="relative rounded-2xl border border-emerald-100 bg-[var(--surface)] p-6 shadow-[0_8px_28px_rgba(5,150,105,0.08)]">
+      <button
+        type="button"
+        onClick={downloadTemplate}
+        className="absolute right-1 top-1 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:from-emerald-600 hover:to-teal-600"
+      >
+        ⬇ Unduh Template
+      </button>
       <div className="mb-3 flex items-center justify-between">
         <label className="block text-sm font-semibold text-slate-700">Unggah Transkrip Akademik</label>
-        <button
-          type="button"
-          onClick={downloadTemplate}
-          className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:from-emerald-600 hover:to-teal-600"
-        >
-          ⬇ Unduh Template
-        </button>
       </div>
       <input
         ref={inputRef}

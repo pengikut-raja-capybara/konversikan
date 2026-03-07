@@ -73,12 +73,12 @@ export default function VersionOnePage() {
   const { estSemesters, remainingSKS } = calculateStudyDuration(totalSKS, totalSKSWajib)
 
   return (
-    <div className="glass-panel rounded-3xl p-5 md:p-6">
-      <div className="mb-4 rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-50 to-blue-50 px-4 py-3 text-sm font-medium text-indigo-700">
+    <div className="glass-panel rounded-3xl p-4">
+      <div className="mb-3 rounded-xl border border-indigo-200 bg-gradient-to-r from-indigo-50 to-blue-50 px-4 py-3 text-sm font-medium text-indigo-700">
         Versi 1: Evaluasi berbasis aturan (peta kompetensi + kemiripan + fuzzy)
       </div>
 
-      <div className="mb-6 grid gap-6 md:grid-cols-2">
+      <div className="mb-4 grid gap-4 md:grid-cols-2">
         <ProdiSelector
           curricula={curricula}
           selectedKey={selectedKey}
