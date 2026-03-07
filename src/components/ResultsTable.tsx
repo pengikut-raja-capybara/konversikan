@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, AllCommunityModule, type ColDef, type RowClassParams, type ValueFormatterParams, themeBalham } from "ag-grid-community";
+import { Search, Trash2 } from "lucide-react";
 import type { MatchResult } from "../types";
 import type { ResultsTableProps, ResultsTableRow } from "../types/components";
 import * as XLSX from "xlsx";
@@ -55,10 +56,22 @@ function getSortPriorityMeta(method: string, hasMatch: boolean): { bucket: numbe
   return { bucket: 2, label: "Rekomendasi" };
 }
 
-function openAutoResolveDialog(
-  duplicateGroupsCount: number,
-  setIsAutoResolveDialogOpen: (open: boolean) => void,
-) {
+function getScoreRowBackground(row?: ResultsTableRow): string | undefined {
+  if (!row) return undefined;
+
+  if (row.isDuplicate) return "#fef3c7";
+  if (!row.result.match) return "#fee2e2";
+
+  const score = row.scorePercent;
+  if (score === null) return undefined;
+
+  // Sorot lebih tegas untuk skor meragukan agar cepat terlihat.
+  if (score < 70) return "#ffedd5";
+  if (score < 85) return "#fef9c3";
+  return "#ecfdf5";
+}
+
+function openAutoResolveDialog(duplicateGroupsCount: number, setIsAutoResolveDialogOpen: (open: boolean) => void) {
   if (duplicateGroupsCount === 0) return;
   setIsAutoResolveDialogOpen(true);
 }
@@ -132,13 +145,7 @@ function exportResultsToExcel(
     if (headerRows.length > 0) headerRows.push([]);
 
     headerRows.push(["No", "Kode", "Nama Mata Kuliah", "SKS", "Nilai"]);
-    const dataRows = originalTranscript.map((c, i) => [
-      i + 1,
-      c.kode ?? "-",
-      c.nama,
-      c.sks ?? "-",
-      c.nilai ?? "-",
-    ]);
+    const dataRows = originalTranscript.map((c, i) => [i + 1, c.kode ?? "-", c.nama, c.sks ?? "-", c.nilai ?? "-"]);
     const wsOri = XLSX.utils.aoa_to_sheet([...headerRows, ...dataRows]);
     XLSX.utils.book_append_sheet(wb, wsOri, "Transkrip Asal");
   }
@@ -284,6 +291,10 @@ export default function ResultsTable({
     });
 
     rows.sort((a, b) => {
+      // Prioritas utama: skor rendah tampil dulu agar kasus meragukan cepat terlihat.
+      const scoreDiff = (a.scorePercent ?? 0) - (b.scorePercent ?? 0);
+      if (scoreDiff !== 0) return scoreDiff;
+
       if (a.sortBucket !== b.sortBucket) return a.sortBucket - b.sortBucket;
 
       const aDup = a.duplicateGroupSize > 1;
@@ -297,7 +308,7 @@ export default function ResultsTable({
         return a.transcriptName.localeCompare(b.transcriptName, "id");
       }
 
-      return (b.scorePercent ?? -1) - (a.scorePercent ?? -1);
+      return a.rowIndex - b.rowIndex;
     });
 
     return rows;
@@ -340,9 +351,7 @@ export default function ResultsTable({
         cellRenderer: (p: { data?: ResultsTableRow; value?: string }) => {
           const d = p.data;
           if (!d) return null;
-          return (
-              p.value
-          );
+          return p.value;
         },
       },
       {
@@ -359,9 +368,10 @@ export default function ResultsTable({
           const d = p.data;
           if (!d) return null;
           const selected = selectedRecommendations[d.rowIndex];
+          const selectedValue = selected !== undefined && selected >= 0 ? String(selected) : "";
           return (
             <select
-              value={selected !== undefined ? String(selected) : ""}
+              value={selectedValue}
               onChange={(e) => {
                 if (e.target.value === "") return;
                 onSelectRecommendation(d.rowIndex, Number(e.target.value));
@@ -369,7 +379,6 @@ export default function ResultsTable({
               className="w-full rounded-md border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700"
             >
               <option value="">Pilih rekomendasi...</option>
-              <option value="-1">Tetapkan Tidak Setara</option>
               {(d.result.recommendations ?? []).map((rec, idx) => (
                 <option key={`${rec.match.kode ?? idx}-${rec.match.nama}`} value={String(idx)}>
                   {rec.match.nama} ({Math.round(rec.score * 100)}%)
@@ -381,32 +390,40 @@ export default function ResultsTable({
       },
       {
         headerName: "Aksi",
-        width: 105,
+        width: 80,
         sortable: false,
         cellRenderer: (p: { data?: ResultsTableRow }) => {
           const d = p.data;
           if (!d) return null;
+
+          const selectedManualRecommendation = selectedRecommendations[d.rowIndex] === -1;
+
           return (
-            <div className="flex flex-col gap-1 py-1">
+            <div className="flex items-center gap-1 py-1">
               <button
                 type="button"
                 onClick={() => {
                   setActiveManualSelectionRow(d.rowIndex);
                   setCourseSearchKeyword("");
                 }}
-                className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-100"
+                title="Pilih mata kuliah manual"
+                aria-label="Pilih mata kuliah manual"
+                className="inline-flex p-1 items-center justify-center rounded-md border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
               >
-                Pilih Manual
+                <Search className="h-[1em] w-[1em]" aria-hidden="true" />
               </button>
-              {d.manualSelected && (
-                <button
-                  type="button"
-                  onClick={() => onClearManualCourse(d.rowIndex)}
-                  className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100"
-                >
-                  Hapus Manual
-                </button>
-              )}
+
+              <button
+                type="button"
+                onClick={() => onSelectRecommendation(d.rowIndex, -1)}
+                title="Tetapkan tidak setara"
+                aria-label="Tetapkan tidak setara"
+                className={`inline-flex p-1 items-center justify-center rounded-md border text-rose-700 hover:bg-rose-100 ${
+                  selectedManualRecommendation ? "border-rose-300 bg-rose-100" : "border-rose-200 bg-rose-50"
+                }`}
+              >
+                <Trash2 className="h-[1em] w-[1em]" aria-hidden="true" />
+              </button>
             </div>
           );
         },
@@ -420,7 +437,7 @@ export default function ResultsTable({
       },
       {
         headerName: "Status",
-        width: 80,
+        width: 125,
         cellRenderer: (p: { data?: ResultsTableRow }) => {
           const d = p.data;
           if (!d) return null;
@@ -441,23 +458,10 @@ export default function ResultsTable({
     };
   }, []);
 
-  const gridRowClassRules = useMemo(() => {
-    return {
-      "bg-red-50/40": (p: RowClassParams<ResultsTableRow>) => !p.data?.result.match,
-      "bg-amber-50": (p: RowClassParams<ResultsTableRow>) => Boolean(p.data?.isDuplicate),
-    };
-  }, []);
-
   const getGridRowStyle = useCallback((p: RowClassParams<ResultsTableRow>) => {
-    if (p.data?.isDuplicate) {
-      return { backgroundColor: "#fef3c7" };
-    }
-
-    if (!p.data?.result.match) {
-      return { backgroundColor: "#fee2e2" };
-    }
-
-    return undefined;
+    const backgroundColor = getScoreRowBackground(p.data);
+    if (!backgroundColor) return undefined;
+    return { backgroundColor };
   }, []);
 
   const duplicateRowsCount = useMemo(() => {
@@ -485,14 +489,7 @@ export default function ResultsTable({
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              onClick={() => exportResultsToExcel(
-                duplicateTargetGroups.length,
-                gridRows,
-                originalTranscript,
-                studentName,
-                asalKampus,
-                setExportBlockingMessage,
-              )}
+              onClick={() => exportResultsToExcel(duplicateTargetGroups.length, gridRows, originalTranscript, studentName, asalKampus, setExportBlockingMessage)}
               className="rounded-lg border border-emerald-300 bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 hover:bg-emerald-200"
             >
               Ekspor Excel
@@ -530,7 +527,6 @@ export default function ResultsTable({
           rowHeight={30}
           headerHeight={40}
           animateRows
-          rowClassRules={gridRowClassRules}
           getRowStyle={getGridRowStyle}
           suppressCellFocus
         />
@@ -634,13 +630,7 @@ export default function ResultsTable({
                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:gap-3">
                   <button
                     type="button"
-                    onClick={() => confirmAutoResolveDuplicates(
-                      duplicateTargetGroups,
-                      results,
-                      onBulkSetUnmatched,
-                      setIsAutoResolveDialogOpen,
-                      setAutoResolveMessage,
-                    )}
+                    onClick={() => confirmAutoResolveDuplicates(duplicateTargetGroups, results, onBulkSetUnmatched, setIsAutoResolveDialogOpen, setAutoResolveMessage)}
                     className="inline-flex w-full justify-center rounded-md bg-amber-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-500 sm:w-auto"
                   >
                     Lanjutkan Penanganan Otomatis

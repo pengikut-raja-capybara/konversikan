@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import VersionOnePage from "./pages/VersionOnePage";
 import VersionTwoPage from "./pages/VersionTwoPage";
+import VersionThreePage from "./pages/VersionThreePage";
 
 function App() {
-  const [activeVersion, setActiveVersion] = useState<"v1" | "v2">("v1");
+  const [activeVersion, setActiveVersion] = useState<"v1" | "v2" | "v3">("v1");
   const [theme, setTheme] = useState<"day" | "night">("day");
   const [isCreditModalOpen, setIsCreditModalOpen] = useState(false);
   const isNightMode = theme === "night";
@@ -53,7 +54,11 @@ function App() {
             <div className="glass-panel fade-up-delay-1 w-full rounded-2xl px-4 py-3 text-xs text-slate-600 sm:max-w-sm lg:w-[360px]">
               <div className="mb-3 flex items-center justify-between">
                 <span className="font-semibold text-slate-700">Mesin aktif</span>
-                <span className="rounded-full bg-[#E9F2FC] px-2.5 py-1 font-semibold text-[#134E81]">{activeVersion === "v1" ? "Mesin Berbasis Aturan" : "Mesin AI Semantik"}</span>
+                <span className="rounded-full bg-[#E9F2FC] px-2.5 py-1 font-semibold text-[#134E81]">
+                  {activeVersion === "v1" && "Mesin Berbasis Aturan"}
+                  {activeVersion === "v2" && "Mesin AI Semantik Lokal"}
+                  {activeVersion === "v3" && "Mesin AI Semantik Ollama"}
+                </span>
               </div>
 
               <div className={`mb-3 rounded-xl border px-3 py-2 ${isNightMode ? "border-[#3E6A93]/45 bg-slate-900/50" : "border-[#CEDDEC] bg-white/80"}`}>
@@ -103,9 +108,25 @@ function App() {
               Versi 2 • AI Semantik
             </span>
           </button>
+          <button
+            type="button"
+            onClick={() => setActiveVersion("v3")}
+            className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
+              activeVersion === "v3" ? "bg-gradient-to-r from-[#E17800] to-[#F0A000] text-white shadow-lg shadow-[#F0C98A]/60" : "bg-white text-[#8A5200] hover:bg-[#FFF1E1]"
+            }`}
+          >
+            <span className="inline-flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-current/80" />
+              Versi 3 • Ollama API
+            </span>
+          </button>
         </div>
 
-        <div className="fade-up-delay-3">{activeVersion === "v1" ? <VersionOnePage /> : <VersionTwoPage />}</div>
+        <div className="fade-up-delay-3">
+          {activeVersion === "v1" && <VersionOnePage />}
+          {activeVersion === "v2" && <VersionTwoPage />}
+          {activeVersion === "v3" && <VersionThreePage />}
+        </div>
 
         {/* small footer text */}
         <footer className={`mt-6 text-center text-xs ${isNightMode ? "text-slate-500" : "text-slate-400"}`}>

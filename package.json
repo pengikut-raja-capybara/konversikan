@@ -13,6 +13,7 @@
     "@huggingface/transformers": "^3.8.1",
     "@tailwindcss/vite": "^4.2.1",
     "ag-grid-react": "^35.1.0",
+    "lucide-react": "^0.577.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.2.1",

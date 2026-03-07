@@ -23,3 +23,8 @@ export interface SemanticProgress {
 export interface SemanticMatchOptions {
   onProgress?: (progress: SemanticProgress) => void
 }
+
+export interface OllamaEmbeddingConfig {
+  serverUrl: string
+  model: string
+}

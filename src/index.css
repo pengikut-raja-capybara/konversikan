@@ -138,6 +138,12 @@ body[data-theme='night'] {
 		animation: fade-up 0.55s ease-out both;
 		animation-delay: 260ms;
 	}
+
+	/* Nonaktifkan efek hover AG Grid agar warna baris tidak berubah saat pointer lewat. */
+	.app-shell .ag-root-wrapper {
+		--ag-row-hover-color: transparent;
+		--ag-column-hover-color: transparent;
+	}
 }
 
 @keyframes fade-up {

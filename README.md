@@ -6,9 +6,10 @@
 
 ## Fitur Utama
 
-### Dua Mesin Pencocokan
+### Tiga Mesin Pencocokan
 - **Versi 1 — Berbasis Aturan**: peta kompetensi (200+ mapping) + kemiripan teks (3 tingkat: exact/inclusion, token, bigram) + fuzzy matching. Threshold kemiripan: 0.60.
 - **Versi 2 — AI Semantik**: embedding multilingual `Xenova/paraphrase-multilingual-MiniLM-L12-v2` via `@huggingface/transformers`. Skor hybrid (semantic cosine + lexical). Threshold: 0.55. Batch encoding 24 teks, in-memory cache embedding, progress bar real-time.
+- **Versi 3 — AI Semantik Ollama (Custom Model)**: embedding via API Ollama (default URL `http://localhost:11434`, default model `bge-m3`). URL server dan nama model dapat diatur pengguna agar fleksibel, dengan beban komputasi tetap di sisi pengguna.
 
 ### Upload & Template
 - Upload transkrip dari format Excel: `XLS`, `XLSX`.
@@ -55,7 +56,8 @@
 - Tema Mode Terang dan Mode Gelap.
 - Daftar hitam otomatis untuk mata kuliah non-konversi (tugas akhir, skripsi, thesis, kerja praktek, magang, PKL, KKN, proyek akhir, dsb.).
 - Ekspansi singkatan (70+ mapping: `peng` → pengantar, `bhs` → bahasa, `ai` → kecerdasan buatan, dsb.) untuk akurasi matching lebih tinggi.
-- Model AI diunduh pada penggunaan pertama (~30 MB), selanjutnya jauh lebih cepat.
+- Model AI Versi 2 diunduh pada penggunaan pertama (~30 MB), selanjutnya jauh lebih cepat.
+- Versi 3 memerlukan server Ollama aktif dan model sudah tersedia (contoh: `ollama pull bge-m3`).
 
 ## Kurikulum Tersedia
 | Program Studi | File |
@@ -125,11 +127,12 @@ bun run preview
 src/
   components/          # FileUploader, ProdiSelector, SummaryCards, ResultsTable
   kurikulum/           # Data kurikulum 6 program studi (JSON)
-  pages/               # VersionOnePage (rule-based), VersionTwoPage (semantic AI)
+  pages/               # VersionOnePage (rule-based), VersionTwoPage (semantic AI lokal), VersionThreePage (semantic Ollama API)
   utils/
     competencyMap.ts   # 200+ peta kesetaraan MK
     matching.ts        # Mesin rule-based (2-pass: competency → similarity → fuzzy)
-    semanticMatching.ts# Mesin semantic embedding + hybrid scoring
+    semanticMatching.ts      # Mesin semantic embedding lokal (transformers.js)
+    semanticMatchingOllama.ts# Mesin semantic embedding via Ollama API
     similarity.ts      # 3-tier similarity: exact → token → bigram + ekspansi singkatan
     parseFile.ts       # Parser Excel + template generator
     studyDuration.ts   # Kalkulator estimasi semester (20/24 SKS per sem)
